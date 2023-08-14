@@ -7,6 +7,8 @@ from flask import Flask, render_template
 from games.domainmodel.model import Game
 
 
+
+
 # TODO: Access to the games should be implemented via the repository pattern and using blueprints, so this can not
 #  stay here!
 def create_some_game():
@@ -24,6 +26,10 @@ def create_app():
 
     # Create the Flask app object.
     app = Flask(__name__)
+
+    # creates the ability to redirect to the homepage.
+    from .home import home
+    app.register_blueprint(home.home_blueprint)
 
     @app.route('/')
     def home():
