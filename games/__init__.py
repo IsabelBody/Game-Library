@@ -31,6 +31,10 @@ def create_app():
     from .home import home
     app.register_blueprint(home.home_blueprint)
 
+    from .library import library
+    app.register_blueprint(library.library_blueprint)
+
+    # Default page open, must be /
     @app.route('/')
     def home():
         some_game = create_some_game()
