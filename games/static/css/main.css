@@ -1,11 +1,37 @@
-#header {
-  padding: 20px;
-  background: 	#E6E6FA;
-  border-bottom: 1px solid #e0e4e8;
-  font-size: 25px;
-  font-weight: bold;
-  text-align: center;
+/* Override global styles for the header */
+.header-style {
+    padding: 20px;
+    background: purple;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
 }
+
+/* Set the text color for h1 element inside the header */
+.headings .h1 {
+    color: black;
+}
+
+/* Set the text color for .copyright div inside the header */
+.header-style .copyright {
+    color: black;
+}
+
+/* Set the background color for the entire page (excluding header) */
+body {
+    background: black;
+}
+
+/* Set the text color for the entire page (excluding header) */
+body *:not(.header-style) {
+    color: white;
+}
+
+p *:not(.header-style) {
+    color: white;
+}
+
+/* ... */
 
 .copyright {
   color: black;
@@ -23,3 +49,4 @@
 .description img {
         vertical-align: top;
     }
+
