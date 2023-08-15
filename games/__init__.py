@@ -1,11 +1,15 @@
 """Initialize Flask app."""
 
 from flask import Flask, render_template
+import games.adapters.repository as repo
+from games.adapters.memory_repository import populate
+from games.adapters.memory_repository import MemoryRepository
 
 # TODO: Access to the games should be implemented via the repository pattern and using blueprints, so this can not
 #  stay here!
 from games.domainmodel.model import Game
 
+# importing the repository
 
 
 
@@ -28,11 +32,16 @@ def create_app():
     app = Flask(__name__)
 
     # creates the ability to redirect to the homepage.
-    from .home import home
-    app.register_blueprint(home.home_blueprint)
+    with app.app_context():
+        from .home import home
+        app.register_blueprint(home.home_blueprint)
 
-    from .library import library
-    app.register_blueprint(library.library_blueprint)
+        from .library import library
+        app.register_blueprint(library.library_blueprint)
+
+    repo.repo_instance = MemoryRepository()
+    populate(repo.repo_instance)
+
 
     # Default page open, must be /
     @app.route('/')

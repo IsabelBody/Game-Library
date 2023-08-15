@@ -13,7 +13,8 @@
   </head>
   <body>
     <header id="header">
-      <h1>game library</h1>
+
+
       <div class="copyright">&copy; ibod875 | sfar671 | sovi376</div>
     </header>
     <div class="container-fluid">
@@ -26,6 +27,33 @@
           </nav>
         </div>
       </div>
+    <h1>total games - {{num_games}} </h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>TITLE</th>
+          <th>Release Date</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for game in games %}
+      <tr>
+        <td>
+          {{game.game_id}}
+        </td>
+        <td>
+          {{game.title}}
+        </td>
+        <td>
+          {{game.game_url}}
+        </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
     </div>
   </body>
 </html>
