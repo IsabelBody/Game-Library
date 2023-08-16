@@ -16,7 +16,7 @@ def library():
     all_games = services.get_games(repo.repo_instance)
     return render_template(
         'gameLibrary.html',
-        title = f"Browse Games",
+        title = "Browse Games",
         heading='Browse Games',
         games=all_games,
         num_games=num_games)
