@@ -1,0 +1,3 @@
+{% for genre in given_genres %}
+            <li><a href="{{url_for('library_bp.games_by_genre', genre=genre.genre_name) }}">{{ genre.genre_name }}</a></li>
+        {% endfor %}

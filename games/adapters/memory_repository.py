@@ -4,11 +4,10 @@ from pathlib import Path
 from typing import List
 from games import *
 from games.adapters.repository import AbstractRepository, RepositoryException
-# importing classes from model.
 from games.domainmodel.model import Publisher, Genre, User, Game, User, Review
-# importing datareader
 from games.adapters.datareader.csvdatareader import *
 from bisect import bisect, bisect_left, insort_left
+
 
 class MemoryRepository(AbstractRepository):
     def __init__(self):
@@ -33,6 +32,14 @@ class MemoryRepository(AbstractRepository):
 
     def get_number_of_games(self):
         return len(self.__games)
+
+    def get_games_for_genre(self, genre_name):
+        matching_games = []
+
+        for game in self.__games:
+            if genre_name.lower() in [genre.genre_name.lower() for genre in game.genres]:
+                matching_games.append(game)
+        return matching_games
 
 
 def populate(repo: AbstractRepository):

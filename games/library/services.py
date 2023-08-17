@@ -1,9 +1,9 @@
 from games.adapters.repository import AbstractRepository
-from games.domainmodel.model import Game
-from games.domainmodel.model import Genre
+
 
 def get_number_of_games(repo: AbstractRepository):
     return repo.get_number_of_games()
+
 
 def get_games(repo: AbstractRepository):
     games = repo.get_games()
@@ -15,8 +15,15 @@ def get_games(repo: AbstractRepository):
         game_dicts.append(game_dict)
     return game_dicts
 
+
 def get_genres(repo: AbstractRepository):
     genres = repo.get_genre()
     genres_names = [genre for genre in genres]
 
     return genres_names
+
+
+def get_games_for_genre(repo: AbstractRepository, genre_name):
+    games = repo.get_games_for_genre(genre_name)  # Implement this method in your repository.
+    game_dicts = [{'game_id': game.game_id, 'title': game.title} for game in games]
+    return game_dicts

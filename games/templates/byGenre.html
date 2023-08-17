@@ -1,0 +1,25 @@
+{% extends 'layout.html' %} {% block content %}
+{% include 'Sidebar.html' %}
+<head>
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>{{ games_title }}</h1>
+
+    <ul>
+        {% for game in games %}
+            <li>{{ game.title }} - <a href="{{ game.view_game_url }}">View Details</a></li>
+        {% endfor %}
+    </ul>
+
+    <div>
+        {% if prev_game_url %}
+            <a href="{{ prev_game_url }}">Previous</a>
+        {% endif %}
+
+        {% if next_game_url %}
+            <a href="{{ next_game_url }}">Next</a>
+        {% endif %}
+    </div>
+</body>
+{% endblock %}

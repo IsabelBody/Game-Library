@@ -1,10 +1,7 @@
 
 {% extends 'layout.html' %} {% block content %}
+{% include 'Sidebar.html' %}
 <h1>total games - {{num_games}} </h1>
-{% for genre in given_genres %}
-      <p>{{ genre }}</p>
-{% endfor %}
-
     <table>
       <thead>
         <tr>

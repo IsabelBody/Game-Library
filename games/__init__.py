@@ -30,7 +30,7 @@ def create_app():
 
     # Create the Flask app object.
     app = Flask(__name__)
-
+    app.debug = True
     # creates the ability to redirect to the homepage.
     with app.app_context():
         from .home import home
@@ -38,6 +38,8 @@ def create_app():
 
         from .library import library
         app.register_blueprint(library.library_blueprint)
+
+
 
     repo.repo_instance = MemoryRepository()
     populate(repo.repo_instance)
