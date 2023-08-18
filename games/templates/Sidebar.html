@@ -1,3 +1,15 @@
-{% for genre in given_genres %}
-            <li><a href="{{url_for('library_bp.games_by_genre', genre=genre.genre_name) }}">{{ genre.genre_name }}</a></li>
-        {% endfor %}
+<head>
+    <link rel="stylesheet" href="../static/css/main.css">
+</head>
+<div class="page-container">
+    <aside class="sidebar">
+        <nav class="nav">
+            {% for genre in given_genres %}
+            <ul>
+                <li><a href="{{url_for('library_bp.games_by_genre', genre=genre.genre_name) }}">{{ genre.genre_name }}</a></li>
+            </ul>
+            {% endfor %}
+        </nav>
+    </aside>
+</div>
+

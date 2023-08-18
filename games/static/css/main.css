@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Rubik:wght@500&family=Urbanist&display=swap');
+
+* {
+   font-family: 'Rubik', sans-serif;
+}
+
 /* Override global styles for the header */
 .header-style {
     padding: 20px;
@@ -14,7 +20,7 @@
 
 /* Set the text color for .copyright div inside the header */
 .header-style .copyright {
-    color: black;
+    color: white;
 }
 
 /* Set the background color for the entire page (excluding header) */
@@ -22,21 +28,7 @@ body {
     background: black;
 }
 
-/* Set the text color for the entire page (excluding header) */
-body *:not(.header-style) {
-    color: white;
-}
 
-p *:not(.header-style) {
-    color: white;
-}
-
-/* ... */
-
-.copyright {
-  color: black;
-  font-size: 0.9em;
-}
 
 .description p i {
     font-family: 'Gill Sans';
@@ -50,3 +42,167 @@ p *:not(.header-style) {
         vertical-align: top;
     }
 
+
+/* Container for the two-column layout */
+.container {
+   display: flex; /* Use flexbox for the layout */
+   max-width: 1000px; /* Adjust the maximum width as needed */
+   margin: 0 auto; /* Center the container horizontally */
+}
+
+/* Main content area */
+.main {
+   flex: 2; /* Take up 2/3 of the available space */
+   padding: 20px; /* Add spacing around the main content */
+}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Rubik:wght@500&family=Urbanist&display=swap');
+
+* {
+   font-family: 'Rubik', sans-serif;
+   color: white; /* Set default text color to white */
+}
+
+/* Override global styles for the header */
+.header-style {
+    padding: 20px;
+    background: purple;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    color: black; /* Set header text color to black */
+}
+
+/* Set the text color for h1 element inside the header */
+.headings .h1 {
+    color: black; /* Set h1 text color to black */
+}
+
+/* Set the background color for the entire page (excluding header) */
+body {
+    background: black;
+}
+
+/* ... */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Rubik:wght@500&family=Urbanist&display=swap');
+
+* {
+   font-family: 'Rubik', sans-serif;
+   color: white; /* Set default text color to white */
+}
+
+/* Override global styles for the header */
+.header-style {
+    padding: 20px;
+    background: purple;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    color: black; /* Set header text color to black */
+}
+
+/* Set the text color for h1 element inside the header */
+.headings .h1 {
+    color: black; /* Set h1 text color to black */
+}
+
+
+/* Set the background color for the entire page (excluding header) */
+body {
+    background: black;
+}
+
+/* ... */
+
+/* Container for the two-column layout */
+.container {
+   display: flex; /* Use flexbox for the layout */
+   max-width: 1000px; /* Adjust the maximum width as needed */
+   margin: 0 auto; /* Center the container horizontally */
+}
+
+/* Main content area */
+.main {
+   flex: 2; /* Take up 2/3 of the available space */
+   padding: 20px; /* Add spacing around the main content */
+}
+
+/* Sidebar styles */
+/* Sidebar styles */
+.sidebar {
+   flex: 1; /* Take up 1/3 of the available space */
+   background: rgba(0, 0, 0, 0.75);
+   padding: 10px 0px 20px 0px;
+   border: 1px solid #111;
+   border-radius: 4px;
+   box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.75);
+   position: sticky; /* Make the sidebar sticky */
+   top: 0; /* Stick to the top of the viewport */
+   max-height: calc(100vh - 40px); /* Adjust the max height as needed */
+   overflow-y: auto; /* Add vertical scroll if content exceeds max height */
+}
+
+
+/* Navigation list styles */
+.nav ul {
+   list-style: none;
+   padding: 0;
+}
+
+.nav li {
+   font-size: 16px;
+   font-weight: 300;
+   text-align: left; /* Align text to the left */
+   height: 40px;
+   line-height: 40px;
+   margin-top: 10px;
+   cursor: pointer;
+   line-height: 1.4;
+}
+
+.nav li a {
+   color: white; /* Set link text color to white */
+   text-decoration: none;
+   display: block;
+   transition: all 0.5s;
+   padding: 5px 0;
+}
+
+.nav li a:hover {
+   color: #ffb366; /* Set the color to very light orange */
+   font-weight: 600;
+}
+
+.nav li::after {
+   content: '';
+   position: absolute;
+   width: 80%;
+   bottom: 50%;
+   left: -100%;
+   transition-delay: all 0.5s;
+   transition: all 0.5s;
+}
+
+.nav li:hover::after,
+.nav li.hover::after {
+   left: 100%;
+}
+
+.nav li .text {
+   text-shadow: 0px -40px 0px rgba(255, 255, 255, 1);
+   transition: all 0.75s;
+   transform: translateY(100%) translateZ(0);
+   transition-delay: all 0.25s;
+}
+
+.nav li:hover .text,
+.nav li.hover .text {
+   text-shadow: 0px -40px 0px rgba(255, 255, 255, 0);
+   transform: translateY(0%) translateZ(0) scale(1.1);
+   font-weight: 600;
+}
+
+.page-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
