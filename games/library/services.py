@@ -7,6 +7,8 @@ def get_number_of_games(repo: AbstractRepository):
 
 def get_games(repo: AbstractRepository):
     games = repo.get_games()
+
+    games = sorted(games, key=lambda game: game.title) # sorting based on alphabetical order.
     game_dicts = []
     for game in games:
         game_dict = {'game_id': game.game_id,

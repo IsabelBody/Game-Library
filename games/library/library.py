@@ -9,15 +9,26 @@ library_blueprint = Blueprint(
 
 @library_blueprint.route('/library', methods=['GET'])
 def library():
+    page = int(request.args.get('page', 1))
     num_games = services.get_number_of_games(repo.repo_instance)
     all_games = services.get_games(repo.repo_instance)
+    games_per_page = 21
+
+    # pagination stuff
+    total_pages = (num_games + games_per_page - 1) // games_per_page  # Calculate total number of pages
+    start_idx = (page - 1) * games_per_page
+    end_idx = start_idx + games_per_page
+    displayed_games = all_games[start_idx:end_idx]
+
     all_genres = services.get_genres(repo.repo_instance)
     return render_template(
         'gameLibrary.html',
         title="Browse Games",
         heading='Browse Games',
-        games=all_games,
+        games=displayed_games,
         num_games=num_games,
+        total_pages=total_pages,
+        current_page=page,
         given_genres=all_genres)
 
 
