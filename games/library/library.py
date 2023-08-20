@@ -20,7 +20,7 @@ def library():
         num_games=num_games,
         given_genres=all_genres)
 
-
+# better if we leave it as library and specify genre, use if statement to see if there is a genre 
 @library_blueprint.route('/games_by_genre', methods=['GET'])
 def games_by_genre():
     games_per_page = 3
@@ -38,6 +38,7 @@ def games_by_genre():
 
     # Retrieve games for the specified genre using the services module.
     games = services.get_games_for_genre(repo.repo_instance, genre_name)
+    # will the above line throw an error if genre_name is empty
 
     first_game_url = None
     last_game_url = None

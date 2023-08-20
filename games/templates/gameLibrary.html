@@ -1,35 +1,30 @@
-
-{% extends 'layout.html' %} {% block content %}
-{% include 'Sidebar.html' %}
+{% extends 'layout.html' %} {% block content %} {% include 'Sidebar.html' %}
 <div class="main">
-  <h1>Total games - {{num_games}} </h1>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>TITLE</th>
-          <th>Release Date</th>
-        </tr>
-      </thead>
-      <tbody>
+  <h1>Total games - {{num_games}}</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>TITLE</th>
+        <th>Release Date</th>
+      </tr>
+    </thead>
+    <tbody>
       {% for game in games %}
       <tr>
         <td>
-          {{game.game_id}}
+          <a href="/description?game_id={{ game.game_id }}"
+            >{{ game.game_id }}</a
+          >
         </td>
         <td>
-          {{game.title}}
+          <a href="/description?game_id={{ game.game_id }}">{{ game.title }}</a>
         </td>
-        <td>
-          {{game.game_url}}
-        </td>
+        <td>{{game.game_url}}</td>
       </tr>
       {% endfor %}
-
-
-      </tbody>
-    </table>
+    </tbody>
+  </table>
 </div>
-
 
 {% endblock %}
