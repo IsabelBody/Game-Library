@@ -31,59 +31,51 @@ def library():
         current_page=page,
         given_genres=all_genres)
 
-# better if we leave it as library and specify genre, use if statement to see if there is a genre 
+
+# better if we leave it as library and specify genre, use if statement to see if there is a genre
 @library_blueprint.route('/games_by_genre', methods=['GET'])
 def games_by_genre():
-    games_per_page = 3
+    games_per_page = 21  # Adjust this as needed
     given_genres = services.get_genres(repo.repo_instance)
-    # Read query parameters.
     genre_name = request.args.get('genre')
-    cursor = request.args.get('cursor')
-
-    if cursor is None:
-        # No cursor query parameter, so initialize cursor to start at the beginning.
-        cursor = 0
-    else:
-        # Convert cursor from string to int.
-        cursor = int(cursor)
+    page = int(request.args.get('page', 1))  # Use 'page' instead of 'cursor'
 
     # Retrieve games for the specified genre using the services module.
     games = services.get_games_for_genre(repo.repo_instance, genre_name)
-    # will the above line throw an error if genre_name is empty
 
-    first_game_url = None
-    last_game_url = None
-    next_game_url = None
-    prev_game_url = None
+    # Calculate total pages for pagination
+    total_pages = (len(games) + games_per_page - 1) // games_per_page
 
-    if cursor > 0:
-        # There are preceding games, so generate URLs for the 'previous' and 'first' navigation buttons.
-        prev_game_url = url_for('library_bp.games_by_genre', genre=genre_name, cursor=cursor - games_per_page)
-        first_game_url = url_for('library_bp.games_by_genre', genre=genre_name)
+    # Calculate the start and end indices for the games on the current page
+    start_idx = (page - 1) * games_per_page
+    end_idx = start_idx + games_per_page
+    displayed_games = games[start_idx:end_idx]
 
-    if cursor + games_per_page < len(games):
-        # There are further games, so generate URLs for the 'next' and 'last' navigation buttons.
-        next_game_url = url_for('library_bp.games_by_genre', genre=genre_name, cursor=cursor + games_per_page)
+    # Calculate URLs for pagination
+    prev_page_url = None
+    next_page_url = None
 
-        last_cursor = games_per_page * (len(games) // games_per_page)
-        if len(games) % games_per_page == 0:
-            last_cursor -= games_per_page
-        last_game_url = url_for('library_bp.games_by_genre', genre=genre_name, cursor=last_cursor)
+    if page > 1:
+        prev_page_url = url_for('library_bp.games_by_genre', genre=genre_name, page=page - 1)
 
-    # Generate the webpage to display the games.
+    if page < total_pages:
+        next_page_url = url_for('library_bp.games_by_genre', genre=genre_name, page=page + 1)
+
     return render_template(
         'byGenre.html',
         given_genres=given_genres,
         title='Games',
-        games_title='Games in the ' + genre_name + ' genre',
-        games=games,
-        first_game_url=first_game_url,
-        last_game_url=last_game_url,
-        prev_game_url=prev_game_url,
-        next_game_url=next_game_url
+        games_title=f'Games in the {genre_name} genre',
+        games=displayed_games,
+        prev_page_url=prev_page_url,
+        next_page_url=next_page_url,
+        current_page=page,
+        total_pages=total_pages
     )
 
-# Search button resulting html page.. Is this the best place for it?
+
+
+# Search button resulting html page. Is this the best place for it?
 @library_blueprint.route('/search', methods=['GET'])
 def search():
     query = request.args.get('query', '').strip()
@@ -111,4 +103,3 @@ def search():
         num_results=num_results,
         total_pages=total_pages,
         current_page=page)
-
