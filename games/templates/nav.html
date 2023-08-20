@@ -6,8 +6,8 @@
         </div>
     </div>
     <!-- The search button -->
-    <form class="search-form" action="{{ url_for('library_bp.search') }}" method="GET">
-        <input type="text" name="query" placeholder="Search games by title" value="{{ request.args.get('query', '') }}">
+    <form class="search-form" action="{{ url_for('search_bp.search') }}" method="GET">
+        <input type="text" name="query" placeholder="Search attributes" value="{{ request.args.get('query', '') }}">
         <button type="submit">Search</button>
     </form>
 </nav>
