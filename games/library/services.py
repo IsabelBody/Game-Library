@@ -29,3 +29,10 @@ def get_games_for_genre(repo: AbstractRepository, genre_name):
     games = repo.get_games_for_genre(genre_name)  # Implement this method in your repository.
     game_dicts = [{'game_id': game.game_id, 'title': game.title} for game in games]
     return game_dicts
+
+
+# search bar stuff
+def search_games(repo: AbstractRepository, query: str):
+    games = repo.get_games()
+    matching_games = [game for game in games if query.lower() in game.title.lower()]
+    return matching_games

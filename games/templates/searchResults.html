@@ -1,0 +1,35 @@
+{% extends 'layout.html' %} {% block content %}
+{% include 'Sidebar.html' %}
+<div class="main">
+    <h1>Search Results for "{{ query }}"</h1>
+    <p>{{ num_results }} results found</p>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>TITLE</th>
+                <th>Release Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for game in matching_games %}
+            <tr>
+                <td><a href="/description?game_id={{ game.game_id }}">{{ game.game_id }}</a></td>
+                <td><a href="/description?game_id={{ game.game_id }}">{{ game.title }}</a></td>
+                <td>{{ game.release_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination links -->
+    <div class="pagination">
+        {% if current_page > 1 %}
+            <a href="{{ url_for('library_bp.search', query=query, page=current_page-1) }}">Previous</a>
+        {% endif %}
+        {% if current_page < total_pages %}
+            <a href="{{ url_for('library_bp.search', query=query, page=current_page+1) }}">Next</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

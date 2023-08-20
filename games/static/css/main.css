@@ -206,3 +206,87 @@ body {
     align-items: flex-start;
     justify-content: space-between;
 }
+
+
+/* Pagination for main library */
+
+/* Pagination container */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Pagination button styles */
+.pagination a {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: purple;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.pagination a:hover {
+    color: #ffb366;
+}
+
+/* Styling for the "Previous" button */
+.pagination a.prev {
+    margin-right: 10px;
+}
+
+/* Styling for the "Next" button */
+.pagination a.next {
+    margin-left: 10px;
+}
+
+
+/* Search Button stuff! + navigation */
+
+#nav_bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: black;
+    color: white;
+    padding: 10px;
+}
+
+/* Navigation links */
+.nav-links {
+    display: flex;
+}
+
+/* Navigation buttons container */
+.nav-buttons {
+    display: flex;
+}
+
+.nav-link {
+    margin-right: 20px;
+    text-decoration: none;
+    color: white;
+}
+
+/* Search form */
+.search-form {
+    display: flex;
+    align-items: center;
+}
+
+.search-form input[type="text"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    color: black; /* Set text color to black */
+}
+
+.search-form button {
+    background-color: #ffb366;
+    color: white;
+    border: none;
+    padding: 10px 20px; /* to make it a bigger button  */
+    border-radius: 5px;
+    cursor: pointer;
+}
