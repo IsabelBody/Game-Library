@@ -1,30 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Game Description</title>
-
-</head>
-<body>
-
-      <header id="header">
-              <h1>description</h1>
-              <div class="copyright">&copy; ibod875 | sfar671 | sovi376</div>
-          <a href="{{ url_for('home_bp.home') }}">Home</a>
-          <a href="{{ url_for('library_bp.library') }}">Game Library</a>
-      </header>
-            <div id="container">
-              <main id="main">
-                <div class="description">
-                  <br>
-                    <h2>{{ game.title }}</h2>
-                    <p><i>Release Date:</i> {{ game.release_date }} </p>
-                    <p><i>Price:</i> {{ game.price }}</p>
-                    <p><i>About:</i> {{ game.description }} </p>
-                    <p><i>Image URL: </i><img src="{{ game.image_url }}" alt="game image"> </p>
-                </div>
-              </main>
-            </div>
-
-</body>
-</html>
+{% extends 'layout.html' %} {% block content %}
+<div class="main">
+  <h1>{{game.title}}</h1>
+  <h3>{{game.game_id}}</h3>
+  <h3>{{game.game_url}}</h3>
+  <h4>
+    Xpand Rally is a rally racing game developed by Techland for Microsoft
+    Windows. The games main focus is on graphics as well as physics. It contains
+    60 tracks where players can drive against 120 different rally drivers.
+  </h4>
+</div>
+{% endblock %}
