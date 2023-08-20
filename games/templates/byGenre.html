@@ -10,8 +10,12 @@
 
     <ul>
         {% for game in games %}
-            <li>{{ game.title }} - <a href="{{ game.view_game_url }}">View Details</a></li>
+            <li>{{ game.title }} - <a href="/description?game_id={{ game.game_id }}">View Details</a></li>
+
         {% endfor %}
+
+
+
     </ul>
 
     <div>
