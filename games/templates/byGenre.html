@@ -1,19 +1,43 @@
-{% extends 'layout.html' %} {% block content %}
-{% include 'Sidebar.html' %}
-    <h1>{{ games_title }}</h1>
-    <ul>
-        {% for game in games %}
-            <li>{{ game.title }} - <a href="{{ game.view_game_url }}">View Details</a></li>
-        {% endfor %}
-    </ul> <br>
+{% extends 'layout.html' %} {% block content %} {% include 'Sidebar.html' %}
+ <div class="main">
+    <head>
+        <title>{{ title }}</title>
+    </head>
+    <body>
+        <h1>{{ games_title }}</h1>
 
-    <div class="pagination">
-        {% if prev_page_url %}
-            <a href="{{ prev_page_url }}">Previous</a>
-        {% endif %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>TITLE</th>
+                    <th>Info</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for game in games %}
+                <tr>
+                    <td>
+                        <a href="/description?game_id={{ game.game_id }}">{{ game.game_id }}</a>
+                    </td>
+                    <td>
+                        <a href="/description?game_id={{ game.game_id }}">{{ game.title }}</a>
+                    </td>
+                    <td> <a href="/description?game_id={{ game.game_id }}">View Details</a>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-        {% if next_page_url %}
-            <a href="{{ next_page_url }}">Next</a>
-        {% endif %}
-    </div>
+        <!-- Pagination links -->
+        <div class="pagination">
+            {% if prev_page_url %}
+                <a href="{{ prev_page_url }}">Previous</a>
+            {% endif %}
+            {% if next_page_url %}
+                <a href="{{ next_page_url }}">Next</a>
+            {% endif %}
+        </div>
+    </body>
+</div>
 {% endblock %}
