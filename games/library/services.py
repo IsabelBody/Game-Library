@@ -36,16 +36,6 @@ def search_games(repo: AbstractRepository, query: str):
     games = repo.get_games()
     matching_games = []
 
-    # checking each game
-
-
-    matching_games = [game for game in games if query.lower() in game.title.lower()]
-    return matching_games
-
-def search_games(repo: AbstractRepository, query: str):
-    games = repo.get_games()
-    matching_games = []
-
     # making it so nothing is case sensitive
     query_lower = query.lower()
 
@@ -57,6 +47,7 @@ def search_games(repo: AbstractRepository, query: str):
                 query_lower in str(game.description).lower() or
                 query_lower in game.publisher.publisher_name.lower() ):
                 matching_games.append(game)
+
             # iterating through genres
             for genre in game.genres:
                 if query_lower in str(genre).lower() and game not in matching_games:

@@ -7,7 +7,7 @@
     </div>
     <!-- The search button -->
     <form class="search-form" action="{{ url_for('search_bp.search') }}" method="GET">
-        <input type="text" name="query" placeholder="Search attributes" value="{{ request.args.get('query', '') }}">
+        <input type="text" name="query" placeholder="Search.." value="{{ request.args.get('query', '') }}">
         <button type="submit">Search</button>
     </form>
 </nav>

@@ -42,7 +42,7 @@ def games_by_genre():
 
     # Retrieve games for the specified genre using the services module.
     games = services.get_games_for_genre(repo.repo_instance, genre_name)
-    games.sort(key=lambda game: game['title'])
+    games.sort(key=lambda game: game['title']) # sorting the output alphabetically
 
     # Calculate total pages for pagination
     total_pages = (len(games) + games_per_page - 1) // games_per_page
