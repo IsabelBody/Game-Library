@@ -35,3 +35,7 @@ class AbstractRepository(abc.ABC):
     @abc.abstractmethod
     def get_number_of_games(self):
         raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_number_of_unique_genres(self):
+        raise NotImplementedError

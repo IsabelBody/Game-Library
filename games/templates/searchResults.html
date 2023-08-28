@@ -1,5 +1,4 @@
 {% extends 'layout.html' %} {% block content %}
-{% include 'Sidebar.html' %}
 <div class="main">
     <h1>Search Results for "{{ query }}"</h1>
     <p>{{ num_results }} results found</p>
@@ -13,8 +12,8 @@
             </tr>
         </thead>
         {% else %}
-    <p> It seems we don't have what you're looking for.. </p>
-    {% endif %}
+            <p> It seems we don't have what you're looking for.. </p>
+        {% endif %}
         <tbody>
             {% for game in matching_games %}
             <tr>
@@ -35,5 +34,5 @@
             <a href="{{ url_for('search_bp.search', query=query, page=current_page+1) }}">Next</a>
         {% endif %}
     </div>
-</div>
+ </div>
 {% endblock %}

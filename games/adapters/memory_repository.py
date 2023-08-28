@@ -33,6 +33,9 @@ class MemoryRepository(AbstractRepository):
     def get_number_of_games(self):
         return len(self.__games)
 
+    def get_number_of_unique_genres(self):
+        return len(self.__genres)
+
     def get_games_for_genre(self, genre_name):
         matching_games = []
 
