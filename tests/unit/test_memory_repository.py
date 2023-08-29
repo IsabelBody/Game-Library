@@ -1,6 +1,10 @@
 import pytest
 from games.adapters.memory_repository import MemoryRepository, populate
 from games.domainmodel.model import Genre, Game
+from games.library.services import get_games, search_games
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 @pytest.fixture
@@ -14,7 +18,6 @@ def in_memory_repo():
 def test_repository_gets_number_of_unique_genres(in_memory_repo):
     num_unique_genres = in_memory_repo.get_number_of_unique_genres()
 
-    # Add your assertion here
     assert num_unique_genres == len(in_memory_repo.get_genre())
 
 
@@ -35,14 +38,46 @@ def test_repository_adds_game_object(in_memory_repo):
     assert new_len == old_len + 1
 
 
-# isabel - could you help me check this please?
 def test_repository_games_only_for_certain_genre(in_memory_repo):
     genre_name = "Adventure"
 
-    games_in_genre = in_memory_repo.get_games_for_genre(genre_name)
-    for game in in_memory_repo.get_games():
-        if game not in games_in_genre:
-            assert all(genre.genre_name != genre_name for genre in game.genres)
+    games_in_genre = in_memory_repo.get_games_for_genre(genre_name) # all games in that genre
+    for game in in_memory_repo.get_games(): # every game in the system
+        if game not in games_in_genre: # if the game aint in the list, its not in that genre
+            assert all(genre.genre_name != genre_name for genre in game.genres) # therefore, every genre for that game is not adventure
 
-    for game in games_in_genre:
-        assert any(genre.genre_name == genre_name for genre in game.genres)
+    for game in games_in_genre: # if game is in list
+        assert any(genre.genre_name == genre_name for genre in game.genres) # at least one of its genres is the right genre.
+
+
+# Testing the search for the input box.
+def test_search_games_by_title(populated_repo):
+    search_input = "100 Seconds"
+    results = search_games(populated_repo, search_input)
+    assert len(results) > 0  # at least one game matches!
+
+    for game in results:
+        assert search_input.lower() in game.title.lower()  # there it is.
+
+def test_search_games_by_publisher(populated_repo):
+    search_input = "Imagine"
+    results = search_games(populated_repo, search_input)
+    assert len(results) > 0  # Ensure there are matching games to this publisher
+
+    for game in results:
+        assert search_input.lower() in game.publisher.publisher_name.lower()  # Check that the search query is in the publisher
+
+def test_search_games_by_genre(populated_repo):
+    search_input = "Action"
+    results = search_games(populated_repo, search_input)
+    assert len(results) > 0  # Ensure there are matching games to this Genre
+    for game in results:
+        assert search_input.lower() in game.publisher.publisher_name.lower()  # Check that the search query is in the publisher
+
+
+# we can recieve a specific game
+def test_retrieve_game_by_id(populated_repo):
+    expected_game = populated_repo.get_games()[7]
+    # the id should return the same game
+    matched_game = populated_repo.get_game_by_id(expected_game.game_id)
+    assert expected_game == matched_game

@@ -1,7 +1,10 @@
+import sys
+
 import pytest
 import os
 from games.domainmodel.model import Publisher, Genre, Game, Review, User, Wishlist
 from games.adapters.datareader.csvdatareader import GameFileCSVReader
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 def test_publisher_init():

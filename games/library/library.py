@@ -2,6 +2,7 @@ from flask import Blueprint, request, url_for
 
 from games.adapters.memory_repository import *
 from games.library import services
+from games.library.pagination import paginate
 
 library_blueprint = Blueprint(
     'library_bp', __name__)
@@ -12,13 +13,8 @@ def library():
     page = int(request.args.get('page', 1))
     num_games = services.get_number_of_games(repo.repo_instance)
     all_games = services.get_games(repo.repo_instance)
-    games_per_page = 21
 
-    # pagination stuff
-    total_pages = (num_games + games_per_page - 1) // games_per_page  # Calculate total number of pages
-    start_idx = (page - 1) * games_per_page
-    end_idx = start_idx + games_per_page
-    displayed_games = all_games[start_idx:end_idx]
+    displayed_games, total_pages, start_idx, end_idx = paginate(all_games, page)
 
     all_genres = services.get_genres(repo.repo_instance)
     return render_template(
@@ -38,19 +34,13 @@ def games_by_genre():
     games_per_page = 21  # Adjust this as needed
     given_genres = services.get_genres(repo.repo_instance)
     genre_name = request.args.get('genre')
-    page = int(request.args.get('page', 1))  # Use 'page' instead of 'cursor'
+    page = int(request.args.get('page', 1))
 
     # Retrieve games for the specified genre using the services module.
     games = services.get_games_for_genre(repo.repo_instance, genre_name)
     games.sort(key=lambda game: game['title']) # sorting the output alphabetically
 
-    # Calculate total pages for pagination
-    total_pages = (len(games) + games_per_page - 1) // games_per_page
-
-    # Calculate the start and end indices for the games on the current page
-    start_idx = (page - 1) * games_per_page
-    end_idx = start_idx + games_per_page
-    displayed_games = games[start_idx:end_idx]
+    displayed_games, total_pages, start_idx, end_idx = paginate(games, page)
 
     # Calculate URLs for pagination
     prev_page_url = None
