@@ -35,10 +35,15 @@ def get_games_for_genre(repo: AbstractRepository, genre_name):
 
 
 # search bar stuff
-def search_games(repo: AbstractRepository, query: str, genre_query: str = None, publisher_query: str = None):
+def search_games(repo: AbstractRepository, query: str = "", genre_query: str = None, publisher_query: str = None):
     # making it so nothing is case sensitive
     query_lower = query.lower()
     matching_games = []
+
+    def no_input_provided():
+        if not genre_query and not publisher_query and query == "":
+            raise ValueError("No results found for the search query.")
+        return
 
     def matches_query(game):
         genre_names = [genre.genre_name for genre in game.genres]
@@ -56,10 +61,9 @@ def search_games(repo: AbstractRepository, query: str, genre_query: str = None, 
     def matches_publisher(game):
         if publisher_query is None:
             return True
-        print("publisher_query: ", publisher_query)
-        print("game.publisher.publisher_name", game.publisher.publisher_name)
         return publisher_query is None or publisher_query in game.publisher.publisher_name
 
+    no_input_provided()
     games = repo.get_games()
     for game in games:
         if matches_query(game) and matches_genre(game) and matches_publisher(game):

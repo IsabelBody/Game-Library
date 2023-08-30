@@ -16,11 +16,6 @@ def search():
     page = int(request.args.get('page', 1))  # Get page number from the search
     genre = request.args.get('genre')
     publisher = request.args.get('publisher')
-    # Check if publisher parameter is not provided
-    if not publisher:
-        publisher = None
-    if not genre:
-        genre = None
     try:
         matching_games = services.search_games(
             repo.repo_instance, query, genre, publisher)
