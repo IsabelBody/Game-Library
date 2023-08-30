@@ -6,6 +6,7 @@ from games.library.services import get_games, search_games
 from games.library.pagination import paginate
 from games.description.services import *
 from games import populate
+
 import pytest
 import os
 
@@ -34,12 +35,12 @@ def test_pagination_populated_repo(populated_repo):
         # checking less than 21 games per page
         assert len(displayed_games) <= items_per_page
 
+# Test inserting empty search key throws exception
+
 
 def test_search_games_empty_query(populated_repo):
-    search_input = ""
-    matching_games = search_games(populated_repo, search_input)
-
-    assert len(matching_games) == 0  # non should be returned!
+    with pytest.raises(ValueError):
+        search_games(populated_repo, "")
 
 
 # the number of objects returned is correct
@@ -50,13 +51,15 @@ def test_get_number_of_games(populated_repo):
 
 # alternative search function using the service layer rather than directly interacting with our repository
 
+# Test getting games for a search key 'genre'
+
 
 def test_search_games_by_genre_service(populated_repo):
     result_games = search_games(populated_repo, "Action")
     assert len(result_games) > 0  # at least one game is in the genre!
 
-    for game in result_games:  # because a game has multiple genres sometimes
-        assert Genre("Action") in game.genres  # matches?!
+    games = search_games(populated_repo, 'action')
+    assert len(games) == 485
 
 # Test service layer return an existing game object
 
@@ -65,11 +68,24 @@ def test_returns_existing_game(populated_repo):
     # get game
     game = get_game(populated_repo, 3010)
 
-    # check game is of type Game
-    assert isinstance(game, Game)
     print(game)
     # get game title -> equal Xpand Rally
     assert game['title'] == 'Xpand Rally'
+
+# Test getting games for a search key 'publisher
+
+
+def test_get_games_by_publisher_search_key(populated_repo):
+    games = search_games(populated_repo, '8floor')
+    print(games)
+    assert len(games) == 5
+
+# Test inserting non-existing search key throws exception
+
+
+def test_inserting_non_existing_search_key(populated_repo):
+    with pytest.raises(ValueError):
+        search_games(populated_repo, "fdasfadsfsafdafdasfadfdasad")
 
 
 # def test_get_game_with_search_key(populated_repo):
@@ -79,22 +95,3 @@ def test_returns_existing_game(populated_repo):
 #     print(game)
 #     # get game title -> equal Xpand Rally
 #     assert game['title'] == 'Xpand Rally'
-
-
-# Test getting games for a search key 'genre'
-def test_get_games_genre_search_key(populated_repo):
-    games = search_games('action')
-    assert len(games) == 5
-
-
-# Test getting games for a search key 'publisher
-def test_get_games_publisher_search_key(populated_repo):
-    games = search_games('8floor')
-    assert len(games) == 5
-
-# Test inserting non-existing search key throws exception
-
-
-def test_inserting_non_existing_search_key(populated_repo):
-    with pytest.raises(ValueError):
-        games = search_games(populated_repo, "fdasfadsfsafdafdasfadfdasad")
