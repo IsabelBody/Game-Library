@@ -51,7 +51,7 @@ def search_games(repo: AbstractRepository, query: str, genre_query: str = None, 
         if genre_query is None:
             return True  # No genre_query provided, so all genres match
         genre_names = [genre.genre_name for genre in game.genres]
-        return any(genre_query in name.lower() for name in genre_names)
+        return any(genre_query.lower() in name.lower() for name in genre_names)
 
     def matches_publisher(game):
         if publisher_query is None:
