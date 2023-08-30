@@ -324,3 +324,19 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
+
+
+
+/* dropdown CSS */
+
+.search-form select {
+  border-radius: 5px; /* roundy edges */
+  padding: 9px;
+  margin-right: 10px; /* gap between boxes */
+}
+
+.search-form select option {
+  color: black; /* making it so the options show up */
+}
+
+
