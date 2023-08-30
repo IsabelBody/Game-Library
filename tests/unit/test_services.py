@@ -4,7 +4,7 @@ from games.domainmodel.model import Game, Genre
 from games.adapters.memory_repository import MemoryRepository
 from games.library.services import get_games, search_games
 from games.library.pagination import paginate
-from games.description.services import *
+from games.description.services import get_game
 from games import populate
 
 import pytest
@@ -21,8 +21,10 @@ def populated_repo():
     populate(repo)
     return repo
 
-
+# LIBRARY.PAGINATION
 # testing the pagination function, it should produce 21 per page.
+
+
 def test_pagination_populated_repo(populated_repo):
     games = get_games(populated_repo)
     assert len(games) > 0  # the repo isn't empty.
@@ -35,48 +37,13 @@ def test_pagination_populated_repo(populated_repo):
         # checking less than 21 games per page
         assert len(displayed_games) <= items_per_page
 
+# LIBRARY.SERVICES
 # Test inserting empty search key throws exception
 
 
 def test_search_games_empty_query(populated_repo):
     with pytest.raises(ValueError):
         search_games(populated_repo, "")
-
-
-# the number of objects returned is correct
-def test_get_number_of_games(populated_repo):
-    game_amount = get_number_of_games(populated_repo)
-    actual_amount = len(populated_repo.get_games())
-    assert game_amount == actual_amount
-
-# alternative search function using the service layer rather than directly interacting with our repository
-
-
-def test_search_games_by_genre_service(populated_repo):
-    result_games = search_games(populated_repo, "Action")
-    assert len(result_games) > 0  # at least one game is in the genre!
-
-    games = search_games(populated_repo, 'action')
-    assert len(games) == 485
-
-# Test service layer return an existing game object
-
-
-def test_returns_existing_game(populated_repo):
-    # get game
-    game = get_game(populated_repo, 3010)
-
-    print(game)
-    # get game title -> equal Xpand Rally
-    assert game['title'] == 'Xpand Rally'
-
-# Test getting games for a search key 'publisher
-
-
-def test_get_games_by_publisher_search_key(populated_repo):
-    games = search_games(populated_repo, '8floor')
-    print(games)
-    assert len(games) == 5
 
 # Test inserting non-existing search key throws exception
 
@@ -85,11 +52,59 @@ def test_inserting_non_existing_search_key(populated_repo):
     with pytest.raises(ValueError):
         search_games(populated_repo, "fdasfadsfsafdafdasfadfdasad")
 
+# Test the number of objects returned is correct
 
-# def test_get_game_with_search_key(populated_repo):
-#     games = search_games('Xpand')
-#     # check game is of type Game
-#     assert isinstance(game, Game)
-#     print(game)
-#     # get game title -> equal Xpand Rally
-#     assert game['title'] == 'Xpand Rally'
+
+def test_get_number_of_games(populated_repo):
+    game_amount = get_number_of_games(populated_repo)
+    actual_amount = len(populated_repo.get_games())
+    assert game_amount == actual_amount
+
+# alternative search function using the service layer rather than directly interacting with our repository
+# Test getting games for a search key ‘genre’
+
+
+def test_search_games_by_genre(populated_repo):
+    result_games = search_games(populated_repo, "", "Action")
+    assert len(result_games) > 0  # at least one game is in the genre!
+    for game in result_games:
+        # The genre must exist in the game
+        assert Genre("Action") in game.genres
+
+# Test getting games for a search key 'publisher'
+
+
+def test_get_games_by_publisher_search_key(populated_repo):
+    result_games = search_games(populated_repo, '', None, 'Activision')
+    assert len(result_games) > 0
+    for game in result_games:
+        assert Publisher("Activision") == game.publisher
+
+
+# Test find specific game with search key
+
+
+def test_get_game_with_search_key(populated_repo):
+    game = search_games(populated_repo, 'Xpand Rally')[0]
+    # check game is of type Game
+    assert isinstance(game, Game)
+    print(game)
+    # get game title -> equal Xpand Rally
+    assert game.title == 'Xpand Rally'
+
+# DESCRIPTION.SERVICES
+# Test service layer return an existing game object
+
+
+def test_returns_existing_game(populated_repo):
+    # get game
+    game = get_game(populated_repo, 3010)
+    assert isinstance(game, Game)
+    print(game)
+    # get game title -> equal Xpand Rally
+    assert game.title == 'Xpand Rally'
+
+    expected_game = get_games(populated_repo)[7]
+    # the id should return the same game
+    matched_game = get_game(populated_repo, expected_game['game_id'])
+    assert expected_game['title'] == matched_game.title
