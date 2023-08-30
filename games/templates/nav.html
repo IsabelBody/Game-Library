@@ -27,9 +27,7 @@
     <select name="publisher">
       <option value="">Select Publisher</option>
       {% for publisher_option in publisher_options %}
-      <option value="{{ publisher_option|lower }}">
-        {{ publisher_option }}
-      </option>
+      <option value="{{ publisher_option}}">{{ publisher_option }}</option>
       {% endfor %}
     </select>
 

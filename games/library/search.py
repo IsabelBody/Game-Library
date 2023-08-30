@@ -22,19 +22,13 @@ def search():
     if not genre:
         genre = None
     try:
-        if query:
+        matching_games = services.search_games(
+            repo.repo_instance, query, genre, publisher)
+        num_results = len(matching_games)
 
-            matching_games = services.search_games(
-                repo.repo_instance, query, genre, publisher)
-            num_results = len(matching_games)
+        displayed_games, total_pages, start_idx, end_idx = paginate(
+            matching_games, page)
 
-            displayed_games, total_pages, start_idx, end_idx = paginate(
-                matching_games, page)
-        else:
-            # when there are 0 results.
-            num_results = 0
-            displayed_games = []
-            total_pages = 0
     except ValueError as e:
         # when there are 0 results.
         num_results = 0
