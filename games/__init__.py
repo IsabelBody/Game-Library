@@ -5,8 +5,7 @@ import games.adapters.repository as repo
 from games.adapters.memory_repository import populate
 from games.adapters.memory_repository import MemoryRepository
 from games.domainmodel.model import Game
-
-
+from games.adapters.repository import AbstractRepository
 
 
 def create_app():
@@ -32,6 +31,21 @@ def create_app():
     repo.repo_instance = MemoryRepository()
     populate(repo.repo_instance)
 
+    def getGenres(repo: AbstractRepository):
+        genres = repo.get_genre()
+        genre_options = [current_genre.genre_name for current_genre in genres]
+        return genre_options
 
+    def getPublishers(repo: AbstractRepository):
+        publishers = repo.get_publishers()
+        publisher_options = [
+            current_publisher.publisher_name for current_publisher in publishers]
+        return publisher_options
+
+    @app.context_processor
+    def inject_genre_options():
+        genre_options = getGenres(repo.repo_instance)
+        publisher_options = getPublishers(repo.repo_instance)
+        return dict(genre_options=genre_options, publisher_options=publisher_options)
 
     return app

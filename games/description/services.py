@@ -12,5 +12,6 @@ def get_game(repo: AbstractRepository, game_id):
             "image_url": raw_game.image_url,
             "reviews": raw_game.reviews,
             "publisher": raw_game.publisher.publisher_name,
-            "genres": genre_names}
+            "genres": genre_names,
+            "price": raw_game.price}
     return game
