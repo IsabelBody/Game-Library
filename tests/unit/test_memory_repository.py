@@ -4,7 +4,6 @@ from games.domainmodel.model import Genre, Game
 from games.library.services import get_games, search_games
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 @pytest.fixture
@@ -67,7 +66,7 @@ def test_search_games_by_title(in_memory_repo):
                any(search_input in str(genre).lower() for genre in game.genres)
 
 def test_search_games_publisher(in_memory_repo):
-    search_input = "Imagine"
+    search_input = "qcf design"
     results = search_games(in_memory_repo, search_input)
 
     assert len(results) > 0  # at least the publisher's games should appear
@@ -85,5 +84,5 @@ def test_search_games_publisher(in_memory_repo):
 def test_retrieve_game_by_id(in_memory_repo):
     expected_game = in_memory_repo.get_games()[7]
     # the id should return the same game
-    matched_game = in_memory_repo.get_game_by_id(expected_game.game_id)
+    matched_game = in_memory_repo.get_game(expected_game.game_id)
     assert expected_game == matched_game
