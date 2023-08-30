@@ -10,17 +10,5 @@ description_blueprint = Blueprint(
 @description_blueprint.route('/description', methods=['GET'])
 def description():
     game_id = int(request.args.get('game_id'))
-    all_games = services.get_games(repo.repo_instance)
-
-    found_game = None
-    for game in all_games:
-        if game['game_id'] == game_id:
-            found_game = game
-            break
-    if found_game:
-        print("Found:", found_game['title'])
-        print(found_game)
-    else:
-        print("Object not found")
-
-    return render_template('gameDescription.html', game=found_game)
+    game = services.get_game(repo.repo_instance, game_id)
+    return render_template('gameDescription.html', game=game)

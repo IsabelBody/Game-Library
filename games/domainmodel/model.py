@@ -133,9 +133,11 @@ class Game:
                 datetime.strptime(release_date, "%b %d, %Y")
                 self.__release_date = release_date
             except ValueError:
-                raise ValueError("Release date must be in 'Oct 21, 2008' format!")
+                raise ValueError(
+                    "Release date must be in 'Oct 21, 2008' format!")
         else:
-            raise ValueError("Release date must be a string in 'Oct 21, 2008' format!")
+            raise ValueError(
+                "Release date must be a string in 'Oct 21, 2008' format!")
 
     @property
     def description(self):
@@ -173,6 +175,13 @@ class Game:
     @property
     def reviews(self) -> list:
         return self.__reviews
+
+    @reviews.setter
+    def reviews(self, reviews):
+        if isinstance(reviews, str) and reviews.strip() != "":
+            self.__reviews = reviews
+        else:
+            self.__reviews = "This game has no reviews"
 
     @property
     def genres(self) -> list:

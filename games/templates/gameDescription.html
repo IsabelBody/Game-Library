@@ -1,9 +1,11 @@
 {% extends 'layout.html' %} {% block content %}
 <div class="main">
-  <h1>{{game.title}}</h1>
-  <h3>{{game.game_id}}</h3>
-  <h3>{{game.game_url}}</h3>
+  <h1>Title: {{game.title}}</h1>
+  <h3>Publisher: {{game.publisher}}</h3>
+  <h3>Genres: {{game.genres}}</h3>
+  <h3>Release Date: {{game.release_date}}</h3>
   <img src="{{game.image_url}}" alt="{{game.title}} Image" />
-  <h4>{{game.description}}</h4>
+  <h4>Description: {{game.description}}</h4>
+  <h4>Reviews: {{game.reviews}}</h4>
 </div>
 {% endblock %}

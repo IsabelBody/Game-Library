@@ -20,6 +20,13 @@ class MemoryRepository(AbstractRepository):
         if isinstance(game, Game):
             insort_left(self.__games, game)
 
+    def get_game(self, game_id):
+        for game in self.__games:
+            if game.game_id == game_id:
+                return game
+        return "Error not found"
+            
+
     def get_games(self) -> List[Game]:
         return self.__games
 
