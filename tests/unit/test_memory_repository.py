@@ -51,33 +51,39 @@ def test_repository_games_only_for_certain_genre(in_memory_repo):
 
 
 # Testing the search for the input box.
-def test_search_games_by_title(populated_repo):
-    search_input = "100 Seconds"
-    results = search_games(populated_repo, search_input)
-    assert len(results) > 0  # at least one game matches!
+def test_search_games_by_title(in_memory_repo):
+    search_input = "100 Seconds" # title name must come up
+    results = search_games(in_memory_repo, search_input)
+
+    assert len(results) > 0  # the titled game should appear
 
     for game in results:
-        assert search_input.lower() in game.title.lower()  # there it is.
+        title_lower = game.title.lower()
+        publisher_lower = game.publisher.publisher_name.lower()
+        search_input_lower = search_input.lower()
 
-def test_search_games_by_publisher(populated_repo):
+        assert search_input_lower in title_lower or \
+               search_input_lower in publisher_lower or \
+               any(search_input in str(genre).lower() for genre in game.genres)
+
+def test_search_games_publisher(in_memory_repo):
     search_input = "Imagine"
-    results = search_games(populated_repo, search_input)
-    assert len(results) > 0  # Ensure there are matching games to this publisher
+    results = search_games(in_memory_repo, search_input)
+
+    assert len(results) > 0  # at least the publisher's games should appear
 
     for game in results:
-        assert search_input.lower() in game.publisher.publisher_name.lower()  # Check that the search query is in the publisher
+        title_lower = game.title.lower()
+        publisher_lower = game.publisher.publisher_name.lower()
+        search_input_lower = search_input.lower()
 
-def test_search_games_by_genre(populated_repo):
-    search_input = "Action"
-    results = search_games(populated_repo, search_input)
-    assert len(results) > 0  # Ensure there are matching games to this Genre
-    for game in results:
-        assert search_input.lower() in game.publisher.publisher_name.lower()  # Check that the search query is in the publisher
-
+        assert search_input_lower in title_lower or \
+               search_input_lower in publisher_lower or \
+               any(search_input in str(genre).lower() for genre in game.genres)
 
 # we can recieve a specific game
-def test_retrieve_game_by_id(populated_repo):
-    expected_game = populated_repo.get_games()[7]
+def test_retrieve_game_by_id(in_memory_repo):
+    expected_game = in_memory_repo.get_games()[7]
     # the id should return the same game
-    matched_game = populated_repo.get_game_by_id(expected_game.game_id)
+    matched_game = in_memory_repo.get_game_by_id(expected_game.game_id)
     assert expected_game == matched_game

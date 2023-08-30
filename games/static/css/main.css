@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Rubik:wght@500&family=Urbanist&display=swap');
-
 * {
    font-family: 'Rubik', sans-serif;
 }
@@ -286,6 +285,26 @@ body {
     text-decoration: none;
     color: white;
 }
+
+/* Add button styles for nav links */
+.nav-buttons .nav-link {
+    background: purple;
+    color: white;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Style for nav links on hover */
+.nav-buttons .nav-link:hover {
+    color: #ffb366;
+    text-decoration: none;
+}
+
 
 /* Search form */
 .search-form {
