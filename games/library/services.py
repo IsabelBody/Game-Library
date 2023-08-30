@@ -27,6 +27,7 @@ def get_genres(repo: AbstractRepository):
 
 
 def get_games_for_genre(repo: AbstractRepository, genre_name):
+    # Implement this method in your repository.
     games = repo.get_games_for_genre(genre_name)
     game_dicts = [{'game_id': game.game_id, 'title': game.title}
                   for game in games]
@@ -34,29 +35,25 @@ def get_games_for_genre(repo: AbstractRepository, genre_name):
 
 
 # search bar stuff
-def search_games(repo: AbstractRepository, query: str, genre_query: str = None, publisher_query: str = None):
+def search_games(repo: AbstractRepository, query: str, genre_query: str = None, publisher: str = None):
+    games = repo.get_games()
+    matching_games = []
+
     # making it so nothing is case sensitive
     query_lower = query.lower()
 
-    def matches_query(game):
-        return (query_lower in game.title.lower() or
-                query_lower in str(game.description).lower() or
-                query_lower in game.publisher.publisher_name.lower())
-
-    def matches_genre(game):
-        if genre_query is None:
-            return True  # No genre_query provided, so all genres match
+    # checking each game
+    for game in games:
         genre_names = [genre.genre_name for genre in game.genres]
-        return any(query_lower in name.lower() for name in genre_names)
+        # checking if any field matches the search
+        if game not in matching_games:  # making sure I don't add the same game twice.
+            if (query_lower in game.title.lower() or
+                query_lower in str(game.description).lower() or
+                query_lower in game.publisher.publisher_name.lower() or
+                    any(query_lower in name.lower() for name in genre_names)):
 
-    def matches_publisher(game):
-        return publisher_query is None or publisher_query in game.publisher.publisher_name
-
-    games = repo.get_games()
-    matching_games = [game for game in games if matches_query(game)
-                      and matches_genre(game) and matches_publisher(game)]
-
-    if not matching_games:
+                if ((publisher is None or publisher in game.publisher.publisher_name) and (genre_query is None or any(genre_query.lower() in name.lower() for name in genre_names))):
+                    matching_games.append(game)
+    if len(matching_games) == 0:
         raise ValueError("No results found for the search query.")
-
     return matching_games
