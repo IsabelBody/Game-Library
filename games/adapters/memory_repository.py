@@ -14,6 +14,7 @@ class MemoryRepository(AbstractRepository):
         # starting with just games
         self.__games = list()
         self.__genres = list()
+        self.__publishers = list()
 
     # getters and setters
     def add_game(self, game: Game):
@@ -25,7 +26,6 @@ class MemoryRepository(AbstractRepository):
             if game.game_id == game_id:
                 return game
         return "Error not found"
-            
 
     def get_games(self) -> List[Game]:
         return self.__games
@@ -51,6 +51,13 @@ class MemoryRepository(AbstractRepository):
                 matching_games.append(game)
         return matching_games
 
+    def add_publisher(self, publisher: Publisher):
+        if isinstance(publisher, Publisher):
+            insort_left(self.__publishers, publisher)
+
+    def get_publishers(self) -> List[Publisher]:
+        return self.__publishers
+
 
 def populate(repo: AbstractRepository):
     dir_name = os.path.dirname(os.path.abspath(__file__))
@@ -59,6 +66,7 @@ def populate(repo: AbstractRepository):
     reader.read_csv_file()
     games = reader.dataset_of_games
     genres = reader.dataset_of_genres
+    publishers = reader.dataset_of_publishers
 
     # add games to the repo
     for game in games:
@@ -66,3 +74,6 @@ def populate(repo: AbstractRepository):
 
     for genre in genres:
         repo.add_genre(genre)
+
+    for publisher in publishers:
+        repo.add_publisher(publisher)

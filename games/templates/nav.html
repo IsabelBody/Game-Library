@@ -1,13 +1,47 @@
 <nav id="nav_bar">
-    <div class="nav-links">
-        <div class="nav-buttons">
-            <a class="nav-link" href="{{ url_for('home_bp.home') }}">Home</a>
-            <a class="nav-link" href="{{ url_for('library_bp.library') }}">Game Library</a>
-        </div>
+  <div class="nav-links">
+    <div class="nav-buttons">
+      <a class="nav-link" href="{{ url_for('home_bp.home') }}">Home</a>
+      <a class="nav-link" href="{{ url_for('library_bp.library') }}"
+        >Game Library</a
+      >
     </div>
-    <!-- The search button -->
-    <form class="search-form" action="{{ url_for('search_bp.search') }}" method="GET">
-        <input type="text" name="query" placeholder="Search.." value="{{ request.args.get('query', '') }}">
-        <button type="submit">Search</button>
-    </form>
+  </div>
+
+  <!-- Search bar -->
+  <form
+    class="search-form"
+    action="{{ url_for('search_bp.search') }}"
+    method="get"
+  >
+    <!-- Dropdown for genre -->
+    <select name="genre">
+      <option value="">Select Genre</option>
+      {% for genre_option in genre_options %}
+      <option value="{{ genre_option|lower }}">{{ genre_option }}</option>
+      {% endfor %}
+    </select>
+
+    <!-- Dropdown for publisher -->
+    <!-- should have this preset if picked, check if param passed thru url -->
+    <select name="publisher">
+      <option value="">Select Publisher</option>
+      {% for publisher_option in publisher_options %}
+      <option value="{{ publisher_option|lower }}">
+        {{ publisher_option }}
+      </option>
+      {% endfor %}
+    </select>
+
+    <!-- Search input field -->
+    <input
+      type="text"
+      name="query"
+      placeholder="Search.."
+      value="{{ request.args.get('query', '') }}"
+    />
+
+    <!-- Submit button -->
+    <button type="submit">Search</button>
+  </form>
 </nav>

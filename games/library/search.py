@@ -1,25 +1,35 @@
-from flask import Blueprint, request, url_for
-
+from flask import Blueprint, request, render_template
 from games.adapters.memory_repository import *
 from games.library import services
 from games.library.pagination import paginate
 
-search_blueprint = Blueprint(
-    'search_bp', __name__)
+search_blueprint = Blueprint('search_bp', __name__)
 
-# Search button resulting html page
+
 @search_blueprint.route('/search', methods=['GET'])
 def search():
     query = request.args.get('query', '').strip()
-    page = int(request.args.get('page', 1))  # Get page number from the search
+    page = int(request.args.get('page', 1))
+    genre = request.args.get('genre')
+    publisher = request.args.get('publisher')
 
-    if query:
-        matching_games = services.search_games(repo.repo_instance, query)
-        num_results = len(matching_games)
+    if not publisher:
+        publisher = None
+    if not genre:
+        genre = None
 
-        displayed_games, total_pages, start_idx, end_idx = paginate(matching_games, page)
-    else:
-        # when there are 0 results.
+    try:
+        if query:
+            matching_games = services.search_games(
+                repo.repo_instance, query, genre, publisher)
+            displayed_games, total_pages, _, _ = paginate(matching_games, page)
+            num_results = len(matching_games)
+        else:
+            num_results = 0
+            displayed_games = []
+            total_pages = 0
+    except ValueError as e:
+        # Handle the "no results found" scenario
         num_results = 0
         displayed_games = []
         total_pages = 0
@@ -30,4 +40,5 @@ def search():
         matching_games=displayed_games,
         num_results=num_results,
         total_pages=total_pages,
-        current_page=page)
+        current_page=page
+    )
