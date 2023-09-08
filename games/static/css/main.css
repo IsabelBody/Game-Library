@@ -340,3 +340,71 @@ body {
 }
 
 
+
+/* CSS for the login stuff */
+
+/* Style for form wrapper */
+.formwrapper {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for form titles */
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Style for form fields and labels */
+.form-field {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+}
+
+/* Style for error messages */
+.errors {
+  color: #ff0000;
+  margin-top: 5px;
+  list-style-type: none;
+}
+
+/* login submit button */
+input[type="submit"] {
+background-color: purple;
+  color: #fff; /* text is white */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px; /* rounded box edges */
+  cursor: pointer; /* grabby hand rather than normal */
+}
+
+/* when you hover the text turns orange */
+input[type="submit"]:hover {
+ color: #ffb366;
+}
+
+/* make it so the text is black in the forms */
+input {
+  color: #000;
+}
+
+
+/* Css for signalling user is logged in, in the top right corner */
+.profile-button {
+  position: absolute;
+  /* top right corner position */
+  top: 0;
+  right: 0;
+  color: white; /* text color is white */
+  padding: 10px;
+  border-radius: 5px; /* Rounded corners */
+}

@@ -6,14 +6,25 @@ from games.adapters.memory_repository import populate
 from games.adapters.memory_repository import MemoryRepository
 from games.domainmodel.model import Game
 from games.adapters.repository import AbstractRepository
+from pathlib import Path
 
 
-def create_app():
+def create_app(test_config=None):
     """Construct the core application."""
 
     # Create the Flask app object.
     app = Flask(__name__)
     app.debug = True
+
+    # Configure the app from configuration-file settings.
+    app.config.from_object('config.Config')
+    data_path = Path('games') / 'adapters' / 'data'
+
+    if test_config is not None:
+        # Load test configuration, and override any configuration settings.
+        app.config.from_mapping(test_config)
+        data_path = app.config['TEST_DATA_PATH']
+
     # creates the ability to redirect to the homepage.
     with app.app_context():
         from .home import home
@@ -27,6 +38,9 @@ def create_app():
 
         from .library import search
         app.register_blueprint(search.search_blueprint)
+
+        from .authentication import authentication
+        app.register_blueprint(authentication.authentication_blueprint)
 
     repo.repo_instance = MemoryRepository()
     populate(repo.repo_instance)

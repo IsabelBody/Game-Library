@@ -8,6 +8,8 @@
     <div class="copyright">&copy; ibod875 | sfar671 | sovi376</div>
 
 
+    {% if 'user_name' in session %} <div class="profile-button">Hello, {{ session['user_name'] }}</div> {% endif %}
+
   </div>
 
 </header>

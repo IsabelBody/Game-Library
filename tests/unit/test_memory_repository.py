@@ -14,8 +14,6 @@ def in_memory_repo():
     return repo
 
 # Test the number of unique genres in the dataset
-
-
 def test_repository_gets_number_of_unique_genres(in_memory_repo):
     num_unique_genres = in_memory_repo.get_number_of_unique_genres()
 

@@ -16,6 +16,16 @@ class MemoryRepository(AbstractRepository):
         self.__genres = list()
         self.__publishers = list()
 
+        # for the login stuff
+        self.__users = list()
+
+    def add_user(self, user: User):
+        self.__users.append(user)
+
+    def get_user(self, user_name) -> User:
+        return next((user for user in self.__users if user.username == user_name), None)
+
+
     # getters and setters
     def add_game(self, game: Game):
         if isinstance(game, Game):
