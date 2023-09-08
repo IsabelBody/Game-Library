@@ -1,5 +1,4 @@
 from flask import Blueprint, request, url_for
-
 from games.adapters.memory_repository import *
 from games.library import services
 from games.library.pagination import paginate
