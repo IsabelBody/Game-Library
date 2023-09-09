@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Rubik:wght@500&family=Urbanist&display=swap");
 * {
   font-family: "Rubik", sans-serif;
+  overflow-x: hidden;   /* stops it going over the width and creating a horizontal scroll bar */
 }
 
 /* Override global styles for the header */
@@ -51,7 +52,6 @@ body {
   flex: 2; /* Take up 2/3 of the available space */
   padding: 20px; /* Add spacing around the main content */
 }
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Rubik:wght@500&family=Urbanist&display=swap");
 
 * {
   font-family: "Rubik", sans-serif;
@@ -79,7 +79,6 @@ body {
 }
 
 /* ... */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Rubik:wght@500&family=Urbanist&display=swap");
 
 * {
   font-family: "Rubik", sans-serif;
@@ -406,5 +405,47 @@ input {
   right: 0;
   color: white; /* text color is white */
   padding: 10px;
-  border-radius: 5px; /* Rounded corners */
+  text-decoration: none; /* Remove underline */
+  /* Hover effect for colour orange when clicking on the link */
+  &:hover {
+    color: #ffb366;
+  }
 }
+
+/* CSS for panels */
+.panels-container {
+  display: flex; /* so that they can be next to eachother */
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-bottom: 20px;
+  /* does not go beyond the center */
+  max-width: 100%;
+}
+
+.panel {
+  flex: 1;
+  padding: 20px;
+  border-radius: 8px; /* curved edges */
+  max-width: 100%;
+}
+
+/* setting different colours */
+.ratings {
+  background-color: #007bff;
+}
+.reviews {
+  background-color: #8b0000;
+}
+.wishlist {
+  background-color: #3e236e;
+}
+
+.panel p {
+  /* so that the text breaks rather than going forever */
+  overflow-wrap: break-word;
+}
+
+.profile-header {
+  text-align: center;
+}
+

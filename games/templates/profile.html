@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="main">
+
+  <h1 class="profile-header">{{ session['user_name'] }}</h1>
+
+
+  <!-- Panels container is for the two next to eachother -->
+  <div class="panels-container">
+    <!-- Left column -->
+    <div class="panel ratings">
+      <h2>Game Ratings</h2>
+      <!-- Game Ratings content -->
+      <ul>
+        <li>thing one </li>
+        <li>thing 2</li>
+      </ul>
+    </div>
+    <div class="panel wishlist">
+    <h2>Wishlisted Games</h2>
+    <!-- Wishlisted Games content -->
+      <p> the games here should be clickable.</p>
+  </div>
+
+  </div>
+    <div class="panel reviews">
+      <h2>Reviews</h2>
+      <!-- reviews content -->
+      <p> I made this one longer so that we can have super wide, long comments displaying! qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq</p>
+    </div>
+
+</div>
+{% endblock %}
