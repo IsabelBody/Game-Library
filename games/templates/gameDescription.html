@@ -1,16 +1,65 @@
-{% extends 'layout.html' %} {% block content %}
-<div class="main">
-  <h1>Title: {{game.title}}</h1>
-  <h2>Price: ${{game.price}}</h2>
-  <h3>Publisher: {{game.publisher.publisher_name}}</h3>
-  <h3>
-    Genres: {% for genre in game.genres %} {{ genre.genre_name }} {% if not
-    loop.last %}, {% endif %} {% endfor %}
-  </h3>
+{% extends 'layout.html' %}
 
-  <h3>Release Date: {{game.release_date}}</h3>
-  <img src="{{game.image_url}}" alt="{{game.title}} Image" />
-  <h4>Description: {{game.description}}</h4>
-  <h4>Reviews: {{game.reviews}}</h4>
+{% block content %}
+<div class="main">
+    <h1>Title: {{ game.title }}</h1>
+    <h2>Price: ${{ game.price }}</h2>
+    <h3>Publisher: {{ game.publisher.publisher_name }}</h3>
+    <h3>
+        Genres: {% for genre in game.genres %}
+        {{ genre.genre_name }}{% if not loop.last %}, {% endif %}{% endfor %}
+    </h3>
+    <h3>Release Date: {{ game.release_date }}</h3>
+    <img src="{{ game.image_url }}" alt="{{ game.title }} Image" />
+    <h4>Description: {{ game.description }}</h4>
+
+    <!-- Display Reviews -->
+    <h4>Reviews:</h4>
+    {% if length != 0 %}
+    <ul>
+        {% for review in game.reviews %}
+        <li>
+            {% with review=review %}
+            {% include 'review.html' %}
+            {% endwith %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>This game has no reviews!</p>
+    {% endif %}
+
+    {% if 'user_name' in session %}
+    <!-- Check if the user has already reviewed the game -->
+    {% set user_reviewed = False %}
+    {% for review in game.reviews %}
+        {% if review.user_name == session['user_name'] %}
+            {% set user_reviewed = True %}
+        {% endif %}
+    {% endfor %}
+
+    {% if user_reviewed %}
+    <!-- Display a message if the user has already reviewed -->
+    <p>You have already reviewed this game.</p>
+    {% else %}
+    <!-- Review Form for Logged In Users -->
+    <form method="POST" action="{{ url_for('description_bp.add_review', game_id=game.game_id) }}">
+        {{ form.hidden_tag() }}
+        <input type="hidden" name="game_id" value="{{ game.game_id }}">
+        <div class="form-group">
+            {{ form.review_text.label(class="form-control-label") }}
+            {{ form.review_text(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.submit }}
+        </div>
+    </form>
+    {% endif %}
+    {% else %}
+    <!-- Message for Non-Logged In Users -->
+    <p>Please log in to post a review.</p>
+    {% endif %}
 </div>
 {% endblock %}
+
+

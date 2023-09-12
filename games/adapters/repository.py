@@ -5,9 +5,11 @@ from games.domainmodel.model import Genre
 
 repo_instance = None
 
+
 class RepositoryException(Exception):
     def __init__(self, message=None):
         print(f"repositoryException: {message}")
+
 
 class AbstractRepository(abc.ABC):
     # We don't implement, because this is
@@ -40,6 +42,9 @@ class AbstractRepository(abc.ABC):
     def add_genre(self, genre: Genre):
         raise NotImplementedError
 
+    def get_game(self, game_id) -> Game:
+        raise NotImplementedError
+
     @abc.abstractmethod
     def get_genre(self) -> List[Genre]:
         raise NotImplementedError
@@ -55,3 +60,7 @@ class AbstractRepository(abc.ABC):
     @abc.abstractmethod
     def get_number_of_unique_genres(self):
         raise NotImplementedError
+
+    @abc.abstractmethod
+    def add_review_to_game(self, game_id, review):
+        pass

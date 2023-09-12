@@ -1,0 +1,6 @@
+<div class="review">
+    {% if review.review_text %}
+    <h4>Review by {{ review.user_name }}</h4>
+    <p>{{ review.review_text }}</p>
+    {% endif %}
+</div>
