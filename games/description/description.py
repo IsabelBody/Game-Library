@@ -3,15 +3,15 @@ from games.adapters.memory_repository import *
 from games.authentication.authentication import login_required
 from games.description import services
 from flask_wtf import FlaskForm
-from wtforms import TextAreaField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import TextAreaField, SubmitField, IntegerRangeField
+from wtforms.validators import DataRequired, NumberRange
 
 description_blueprint = Blueprint(
     'description_bp', __name__)
 
-
 class ReviewForm(FlaskForm):
     review_text = TextAreaField('Write your review', validators=[DataRequired()])
+    rating = IntegerRangeField('Star Rating', validators=[DataRequired(), NumberRange(min=1, max=5)])
     submit = SubmitField('Submit Review')
 
 
@@ -41,6 +41,7 @@ def add_review(game_id):
 
     # Create an instance of the ReviewForm
     form = ReviewForm()
+    game = services.get_game(repo.repo_instance, game_id)
 
     if form.validate_on_submit():
         # Successful POST, add the review to the game.
@@ -54,5 +55,5 @@ def add_review(game_id):
         except ValueError as e:
             flash(str(e), 'error')
 
-    # Redirect back to the game description page with a confirmation message.
-    return redirect(url_for('description_bp.description', game_id=game_id))
+    # Pass the form instance to the template context for description.html
+    return render_template('gameDescription.html', game=game, game_id=game_id, form=form)

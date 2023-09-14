@@ -1,6 +1,9 @@
 <div class="review">
     {% if review.review_text %}
     <h4>Review by {{ review.user_name }}</h4>
+    <p>Rating: {{ form.rating.data }}</p>
     <p>{{ review.review_text }}</p>
     {% endif %}
 </div>
+
+
