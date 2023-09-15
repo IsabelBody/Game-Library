@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import List
 from games import *
 from games.adapters.repository import AbstractRepository, RepositoryException
-from games.domainmodel.model import Publisher, Genre, User, Game, User, Review
+from games.domainmodel.model import Publisher, Genre, User, Game, User, Review, Wishlist
 from games.adapters.datareader.csvdatareader import *
 from bisect import bisect, bisect_left, insort_left
 
@@ -18,6 +18,7 @@ class MemoryRepository(AbstractRepository):
 
         # for the login stuff
         self.__users = list()
+        self.__wishlists = list()
 
     def add_user(self, user: User):
         self.__users.append(user)
@@ -25,13 +26,51 @@ class MemoryRepository(AbstractRepository):
     def get_user(self, user_name) -> User:
         return next((user for user in self.__users if user.username == user_name), None)
 
+    # methods for wishlist
+    def add_wishlist(self, user: User):
+        wishlist = Wishlist(user)
+        self.__wishlists.append(wishlist)
+        return wishlist
+
+    def get_wishlists(self):
+        return self.__wishlists
+
+    def add_wishlist_game(self, user: User, game: Game):
+        if isinstance(user, User) and isinstance(game, Game):
+            user_wishlist = next(
+                (wishlist for wishlist in self.__wishlists if wishlist.user == user), None)
+            if user_wishlist == None:
+                user_wishlist = self.add_wishlist(user)
+
+            if game not in user_wishlist.list_of_games():
+                user_wishlist.add_game(game)
+
+    def get_wishlist_games(self, user) -> List[Game]:
+        if isinstance(user, User):
+            user_wishlist = next(
+                (wishlist for wishlist in self.__wishlists if wishlist.user == user), None)
+            return user_wishlist.list_of_games()
+        else:
+            return None
+
+    def remove_wishlist_game(self, user: User, game: Game):
+        user_wishlist = next(
+            (wishlist for wishlist in self.__wishlists if wishlist.user == user), None)
+
+        if user_wishlist is not None:
+            if game in user_wishlist.list_of_games():
+                user_wishlist.remove_game(game)
+                return True
+
+        return False
 
     # getters and setters
+
     def add_game(self, game: Game):
         if isinstance(game, Game):
             insort_left(self.__games, game)
 
-    def get_game(self, game_id):
+    def get_game(self, game_id) -> Game:
         for game in self.__games:
             if game.game_id == game_id:
                 return game

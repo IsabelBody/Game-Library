@@ -1,6 +1,7 @@
 {% extends 'layout.html' %} {% block content %} {% include 'Sidebar.html' %}
 <div class="main">
   <h1>Total games - {{num_games}}</h1>
+  {% include 'wishlistAlert.html' %}
   <table>
     <thead>
       <tr>
@@ -21,26 +22,24 @@
           <a href="/description?game_id={{ game.game_id }}">{{ game.title }}</a>
         </td>
         <td>{{game.game_url}}</td>
+        <td>
+          <a href="/wishlist?game_id={{ game.game_id }}">Add to Wishlist</a>
+        </td>
       </tr>
       {% endfor %}
-
-
-      </tbody>
-    </table>
+    </tbody>
+  </table>
 
   <!-- Pagination links -->
   <div class="pagination">
     {% if current_page > 1 %}
-      <a href="{{url_for('library_bp.library', page=current_page-1)}}">Previous</a>
-    {% endif %}
-    {% if current_page < total_pages %}
-      <a href="{{url_for('library_bp.library', page=current_page+1)}}">Next</a>
+    <a href="{{url_for('library_bp.library', page=current_page-1)}}"
+      >Previous</a
+    >
+    {% endif %} {% if current_page < total_pages %}
+    <a href="{{url_for('library_bp.library', page=current_page+1)}}">Next</a>
     {% endif %}
   </div>
-
 </div>
-
-
-
 
 {% endblock %}

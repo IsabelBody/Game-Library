@@ -4,7 +4,6 @@ from games.adapters.repository import AbstractRepository
 def get_number_of_games(repo: AbstractRepository):
     return repo.get_number_of_games()
 
-
 def get_games(repo: AbstractRepository):
     games = repo.get_games()
 

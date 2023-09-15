@@ -1,13 +1,15 @@
 import abc
 from typing import List
-from games.domainmodel.model import Game, User
+from games.domainmodel.model import Game, User, Publisher, Wishlist
 from games.domainmodel.model import Genre
 
 repo_instance = None
 
+
 class RepositoryException(Exception):
     def __init__(self, message=None):
         print(f"repositoryException: {message}")
+
 
 class AbstractRepository(abc.ABC):
     # We don't implement, because this is
@@ -29,7 +31,23 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
+    def add_wishlist_game(self, user: User, game: Game):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_wishlists(self):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_wishlist_games(self) -> List[Game]:
+        raise NotImplementedError
+
+    @abc.abstractmethod
     def add_game(self, game: Game):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_game(self, game_id) -> Game:
         raise NotImplementedError
 
     @abc.abstractmethod
@@ -54,4 +72,12 @@ class AbstractRepository(abc.ABC):
 
     @abc.abstractmethod
     def get_number_of_unique_genres(self):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def add_publisher(self, publisher: Publisher):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_publishers(self) -> List[Publisher]:
         raise NotImplementedError

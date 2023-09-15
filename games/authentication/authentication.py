@@ -10,6 +10,7 @@ from functools import wraps
 
 import games.authentication.services as services
 import games.adapters.repository as repo
+import games.user.services as wishlist
 
 # Configure Blueprint.
 authentication_blueprint = Blueprint(
@@ -25,7 +26,8 @@ def register():
         # Successful POST, i.e. the username and password have passed validation checking.
         # Use the service layer to attempt to add the new user.
         try:
-            services.add_user(form.user_name.data, form.password.data, repo.repo_instance)
+            services.add_user(form.user_name.data,
+                              form.password.data, repo.repo_instance)
 
             # All is well, redirect the user to the login page.
             return redirect(url_for('authentication_bp.login'))
@@ -55,11 +57,14 @@ def login():
             user = services.get_user(form.user_name.data, repo.repo_instance)
 
             # Authenticate user.
-            services.authenticate_user(user['user_name'], form.password.data, repo.repo_instance)
+            services.authenticate_user(
+                user['user_name'], form.password.data, repo.repo_instance)
 
             # Initialise session and redirect the user to the home page.
             session.clear()
             session['user_name'] = user['user_name']
+            new_wishlist = wishlist.add_wishlist(
+                repo.repo_instance, user['user_name'])
             return redirect(url_for('home_bp.home'))
 
         except services.UnknownUserException:
