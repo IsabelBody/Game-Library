@@ -107,6 +107,10 @@ class MemoryRepository(AbstractRepository):
     def get_publishers(self) -> List[Publisher]:
         return self.__publishers
 
+    def add_review_to_game(self, game_id, review):
+        game = self.get_game(game_id)
+        if game:
+            game.add_review(review)
 
 def populate(repo: AbstractRepository):
     dir_name = os.path.dirname(os.path.abspath(__file__))

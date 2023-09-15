@@ -449,3 +449,15 @@ input {
   text-align: center;
 }
 
+.review {
+background: white;
+color: purple;
+}
+
+.review h4 {
+color: purple
+}
+
+.review p {
+color: purple
+}

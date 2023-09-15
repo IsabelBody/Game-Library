@@ -179,9 +179,12 @@ class Game:
     @reviews.setter
     def reviews(self, reviews):
         if isinstance(reviews, str) and reviews.strip() != "":
-            self.__reviews = reviews
+            self.__reviews.append(reviews)
         else:
-            self.__reviews = "This game has no reviews"
+            self.__reviews = []
+
+    def add_review(self, review):
+        self.__reviews.append(review)
 
     @property
     def genres(self) -> list:
