@@ -76,3 +76,15 @@ class AbstractRepository(abc.ABC):
     @abc.abstractmethod
     def get_number_of_unique_genres(self):
         raise NotImplementedError
+
+    @abc.abstractmethod
+    def add_review_to_game(self, game_id, review):
+        pass
+
+    @abc.abstractmethod
+    def add_publisher(self, publisher: Publisher):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_publishers(self) -> List[Publisher]:
+        raise NotImplementedError
