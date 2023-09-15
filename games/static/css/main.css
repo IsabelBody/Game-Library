@@ -449,15 +449,52 @@ input {
   text-align: center;
 }
 
+/* Style for the review container */
 .review {
-background: white;
-color: purple;
-}
-
-.review h4 {
-color: purple
+    background-color: white; /* White background */
+    color: purple; /* Purple text color */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px; /* Add padding for spacing */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Dark gray shadow for a card effect */
+    margin-bottom: 20px; /* Margin between cards */
 }
 
 .review p {
-color: purple
+    color: purple;
+}
+/* Style for the review author's name */
+.review h4 {
+    font-size: 18px; /* Adjust the font size as needed */
+    margin-top: 0; /* Remove default margin */
+    color: purple;
+}
+
+/* Style for the review rating */
+.review p:nth-child(2) {
+    font-weight: bold; /* Make the rating text bold */
+    margin: 10px 0; /* Add margin for spacing */
+}
+
+/* Style for the review text */
+.review p:nth-child(3) {
+    margin: 10px 0; /* Add margin for spacing */
+}
+
+/* Style for the rating container */
+.rating {
+    margin: 10px 0;
+}
+
+.star {
+    width: 20px; /* Adjust the size of the stars */
+    height: 20px;
+    background-color: transparent;
+    display: inline-block;
+    margin-right: 5px; /* Spacing between stars */
+    clip-path: polygon(50% 0%, 61.8% 38.2%, 100% 38.2%, 68.2% 61.8%, 79.4% 100%, 50% 77.3%, 20.6% 100%, 31.8% 61.8%, 0% 38.2%, 38.2% 38.2%);
+}
+
+/* Style for filled stars */
+.star.yellow {
+    background-color: gold; /* Filled star color */
 }

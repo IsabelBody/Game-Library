@@ -1,9 +1,16 @@
 <div class="review">
     {% if review.review_text %}
     <h4>Review by {{ review.user_name }}</h4>
-    <p>Rating: {{ form.rating.data }}</p>
+    <div class="rating">
+        <div class="star {% if form.rating.data >= 1 %}yellow{% endif %}"></div>
+        <div class="star {% if form.rating.data >= 2 %}yellow{% endif %}"></div>
+        <div class="star {% if form.rating.data >= 3 %}yellow{% endif %}"></div>
+        <div class="star {% if form.rating.data >= 4 %}yellow{% endif %}"></div>
+        <div class="star {% if form.rating.data >= 5 %}yellow{% endif %}"></div>
+    </div>
     <p>{{ review.review_text }}</p>
     {% endif %}
 </div>
+
 
 
