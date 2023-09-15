@@ -1,6 +1,6 @@
 import abc
 from typing import List
-from games.domainmodel.model import Game, User
+from games.domainmodel.model import Game, User, Publisher, Wishlist
 from games.domainmodel.model import Genre
 
 repo_instance = None
@@ -31,7 +31,23 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
+    def add_wishlist_game(self, user: User, game: Game):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_wishlists(self):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_wishlist_games(self) -> List[Game]:
+        raise NotImplementedError
+
+    @abc.abstractmethod
     def add_game(self, game: Game):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_game(self, game_id) -> Game:
         raise NotImplementedError
 
     @abc.abstractmethod
@@ -64,3 +80,11 @@ class AbstractRepository(abc.ABC):
     @abc.abstractmethod
     def add_review_to_game(self, game_id, review):
         pass
+
+    @abc.abstractmethod
+    def add_publisher(self, publisher: Publisher):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_publishers(self) -> List[Publisher]:
+        raise NotImplementedError

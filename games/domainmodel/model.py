@@ -356,6 +356,10 @@ class Wishlist:
 
         self.__list_of_games = []
 
+    @property
+    def user(self):
+        return self.__user
+
     def list_of_games(self):
         return self.__list_of_games
 

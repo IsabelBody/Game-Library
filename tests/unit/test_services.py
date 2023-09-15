@@ -88,7 +88,7 @@ def test_get_game_with_search_key(populated_repo):
     game = search_games(populated_repo, 'Xpand Rally')[0]
     # check game is of type Game
     assert isinstance(game, Game)
-    print(game)
+
     # get game title -> equal Xpand Rally
     assert game.title == 'Xpand Rally'
 
@@ -100,7 +100,6 @@ def test_returns_existing_game(populated_repo):
     # get game
     game = get_game(populated_repo, 3010)
     assert isinstance(game, Game)
-    print(game)
     # get game title -> equal Xpand Rally
     assert game.title == 'Xpand Rally'
 

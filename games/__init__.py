@@ -45,6 +45,9 @@ def create_app(test_config=None):
         from .user import profile
         app.register_blueprint(profile.profile_blueprint)
 
+        from .user import wishlist
+        app.register_blueprint(wishlist.wishlist_blueprint)
+
     repo.repo_instance = MemoryRepository()
     populate(repo.repo_instance)
 
