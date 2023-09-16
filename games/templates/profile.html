@@ -16,12 +16,19 @@
     <div class="panel wishlist">
       <h2>Wishlisted Games</h2>
       <ul>
-        {% for game in wishlist_games %}
-        <li>
-          {{ game.title }}
-          <a href="/remove_from_wishlist?game_id={{ game.game_id }}">Remove</a>
-        </li>
-        {% endfor %}
+        {% if wishlist_games %}
+          {% for game in wishlist_games %}
+          <li>
+            <td>
+              <a href="/description?game_id={{ game.game_id }}" >{{ game.title }}</a>
+            </td>
+            <a href="/remove_from_wishlist?game_id={{ game.game_id }}" class="remove-link">Remove</a>
+
+          </li>
+          {% endfor %}
+        {% else %}
+          <li>No wishlisted games.</li>
+        {% endif %}
       </ul>
     </div>
   </div>

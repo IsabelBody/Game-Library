@@ -434,7 +434,7 @@ input {
   background-color: #007bff;
 }
 .reviews {
-  background-color: #8b0000;
+  background-color: darkgreen;
 }
 .wishlist {
   background-color: #3e236e;
@@ -498,3 +498,29 @@ input {
 .star.yellow {
     background-color: gold; /* Filled star color */
 }
+
+
+
+a {
+  text-decoration: none;
+}
+
+/* Change link color on hover */
+a:hover {
+  color: #ffb366; /* light orange hover */
+}
+
+/* Style the "Remove" link */
+a.remove-link {
+  color: #e74c3c; /* Red color for remove links */
+  text-align: right;
+}
+
+/* Change "Remove" link color on hover */
+a.remove-link:hover {
+  color: #ff5733; /* Change to a different color on hover */
+}
+
+
+
+
