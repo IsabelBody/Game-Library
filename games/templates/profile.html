@@ -2,17 +2,8 @@
 <div class="main">
   <h1 class="profile-header">{{ session['user_name'] }}</h1>
   {% include 'wishlistAlert.html' %}
-  <!-- Panels container is for the two next to eachother -->
   <div class="panels-container">
-    <!-- Left column -->
-    <div class="panel ratings">
-      <h2>Game Ratings</h2>
-      <!-- Game Ratings content -->
-      <ul>
-        <li>thing one</li>
-        <li>thing 2</li>
-      </ul>
-    </div>
+
     <div class="panel wishlist">
       <h2>Wishlisted Games</h2>
       <ul>
@@ -35,11 +26,18 @@
   <div class="panel reviews">
     <h2>Reviews</h2>
     <!-- reviews content -->
-    <p>
-      I made this one longer so that we can have super wide, long comments
-      displaying!
-      qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-    </p>
+    {% if reviews %}
+    {% for review in reviews %}
+        <p>
+            {% with review=review, title=review.game.title %}
+            {% include 'review.html' %}
+            {% endwith %}
+        </p>
+        {% endfor %}
+    {% else %}
+    <p> No reviews yet. </p>
+    {% endif %}
+
   </div>
 </div>
 {% endblock %}

@@ -3,7 +3,6 @@ from games.adapters.memory_repository import *
 from games.user import services
 from flask import Blueprint, request, session, redirect, flash, url_for
 
-
 wishlist_blueprint = Blueprint('wishlist_bp', __name__)
 
 
@@ -19,7 +18,6 @@ def add_to_wishlist():
         flash(f'{game.title} has been added to your wishlist.', 'success')
     else:
         print("not game or user")
-
     return redirect(url_for('library_bp.library'))
 
 

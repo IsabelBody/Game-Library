@@ -27,6 +27,8 @@ def library():
         given_genres=all_genres)
 
 
+
+
 # better if we leave it as library and specify genre, use if statement to see if there is a genre
 @library_blueprint.route('/games_by_genre', methods=['GET'])
 def games_by_genre():

@@ -1,14 +1,22 @@
 <div class="review">
-    {% if review.review_text %}
-    <h4>Review by {{ review.user_name }}</h4>
+    {% if review.comment %}
+
+    {% if user %}
+    <h4>Review by {{ review.user.username }}</h4>
+    {% endif %}
+
+
+    {% if title %}
+    <h4> {{title}} </h4>
+    {% endif %}
     <div class="rating">
-        <div class="star {% if form.rating.data >= 1 %}yellow{% endif %}"></div>
-        <div class="star {% if form.rating.data >= 2 %}yellow{% endif %}"></div>
-        <div class="star {% if form.rating.data >= 3 %}yellow{% endif %}"></div>
-        <div class="star {% if form.rating.data >= 4 %}yellow{% endif %}"></div>
-        <div class="star {% if form.rating.data >= 5 %}yellow{% endif %}"></div>
+        <div class="star {% if review.rating >= 1 %}yellow{% endif %}"></div>
+        <div class="star {% if review.rating >= 2 %}yellow{% endif %}"></div>
+        <div class="star {% if review.rating >= 3 %}yellow{% endif %}"></div>
+        <div class="star {% if review.rating >= 4 %}yellow{% endif %}"></div>
+        <div class="star {% if review.rating >= 5 %}yellow{% endif %}"></div>
     </div>
-    <p>{{ review.review_text }}</p>
+    <p>{{ review.comment }}</p>
     {% endif %}
 </div>
 

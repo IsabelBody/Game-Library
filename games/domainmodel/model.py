@@ -248,7 +248,11 @@ class User:
     def reviews(self) -> list:
         return self.__reviews
 
+
+
     def add_review(self, new_review):
+
+        # These two lines were not allowing new reviews to be added:
         if not isinstance(new_review, Review) or new_review in self.__reviews:
             return
         self.__reviews.append(new_review)

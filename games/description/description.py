@@ -46,10 +46,11 @@ def add_review(game_id):
     if form.validate_on_submit():
         # Successful POST, add the review to the game.
         review_text = form.review_text.data
+        rating = form.rating.data
 
         try:
             # Call the service layer function to add the review
-            services.add_review(game_id, review_text, user_name, repo.repo_instance)
+            services.add_review(game_id, review_text, user_name, repo.repo_instance, rating)
             flash('Review posted successfully!', 'success')
 
         except ValueError as e:

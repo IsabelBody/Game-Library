@@ -23,7 +23,7 @@
     <ul>
         {% for review in game.reviews %}
         <li>
-            {% with review=review %}
+            {% with review=review, user=true %}
             {% include 'review.html' %}
             {% endwith %}
         </li>
