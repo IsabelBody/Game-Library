@@ -48,13 +48,8 @@ def add_review(game_id):
         review_text = form.review_text.data
         rating = form.rating.data
 
-        try:
-            # Call the service layer function to add the review
-            services.add_review(game_id, review_text, user_name, repo.repo_instance, rating)
-            flash('Review posted successfully!', 'success')
+        services.add_review(game_id, review_text, user_name, repo.repo_instance, rating)
 
-        except ValueError as e:
-            flash(str(e), 'error')
 
-    # Pass the form instance to the template context for description.html
+
     return render_template('gameDescription.html', game=game, game_id=game_id, form=form)
