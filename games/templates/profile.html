@@ -22,14 +22,14 @@
         {% endif %}
       </ul>
     </div>
-  </div>
+
   <div class="panel reviews">
     <h2>Reviews</h2>
     <!-- reviews content -->
     {% if reviews %}
     {% for review in reviews %}
         <p>
-            {% with review=review, title=review.game.title %}
+            {% with review=review, reviewed_game=review.game %}
             {% include 'review.html' %}
             {% endwith %}
         </p>
@@ -39,5 +39,6 @@
     {% endif %}
 
   </div>
+    </div>
 </div>
 {% endblock %}

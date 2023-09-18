@@ -1,13 +1,14 @@
 <div class="review">
     {% if review.comment %}
 
+    <!-- for displaying below the game -->
     {% if user %}
     <h4>Review by {{ review.user.username }}</h4>
     {% endif %}
 
-
-    {% if title %}
-    <h4> {{title}} </h4>
+    <!-- for displaying below the profile -->
+    {% if reviewed_game %}
+    <h4><a class="review_title" href="/description?game_id={{ reviewed_game.game_id }}" >{{ reviewed_game.title }}</a> </h4>
     {% endif %}
     <div class="rating">
         <div class="star {% if review.rating >= 1 %}yellow{% endif %}"></div>

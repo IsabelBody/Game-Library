@@ -429,12 +429,8 @@ input {
   max-width: 100%;
 }
 
-/* setting different colours */
-.ratings {
-  background-color: #007bff;
-}
 .reviews {
-  background-color: darkgreen;
+  background-color: #007bff;
 }
 .wishlist {
   background-color: #3e236e;
@@ -505,6 +501,10 @@ a {
   text-decoration: none;
 }
 
+a.review_title {
+color: darkred;
+}
+
 /* Change link color on hover */
 a:hover {
   color: #ffb366; /* light orange hover */
@@ -523,4 +523,8 @@ a.remove-link:hover {
 
 
 
+/* Change the text color of the h4 element with class "custom-heading" */
+.custom-heading {
+  color: #000; /* Replace #000 with your desired text color (e.g., black) */
+}
 
