@@ -18,6 +18,8 @@ def add_to_wishlist():
         flash(f'{game.title} has been added to your wishlist.', 'success')
     else:
         print("not game or user")
+        return redirect(url_for('authentication_bp.register'))
+
     return redirect(url_for('library_bp.library'))
 
 
