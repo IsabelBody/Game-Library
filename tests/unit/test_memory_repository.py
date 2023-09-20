@@ -13,11 +13,13 @@ def in_memory_repo():
     populate(repo)
     return repo
 
+
 # Test the number of unique genres in the dataset
 def test_repository_gets_number_of_unique_genres(in_memory_repo):
     num_unique_genres = in_memory_repo.get_number_of_unique_genres()
 
     assert num_unique_genres == len(in_memory_repo.get_genre())
+
 
 # Test repository adds a new genre, and the count of genres increases by 1
 
@@ -29,6 +31,7 @@ def test_repository_adds_by_one_for_genres(in_memory_repo):
 
     assert len(in_memory_repo.get_genre()) == (old_length + 1)
 
+
 # Test repository can add a game object
 
 
@@ -39,6 +42,7 @@ def test_repository_adds_game_object(in_memory_repo):
     new_len = len(in_memory_repo.get_games())
 
     assert new_len == old_len + 1
+
 
 # Test repository retrieves correct number of game objects
 
@@ -77,8 +81,8 @@ def test_search_games_by_title(in_memory_repo):
         search_input_lower = search_input.lower()
 
         assert search_input_lower in title_lower or \
-            search_input_lower in publisher_lower or \
-            any(search_input in str(genre).lower() for genre in game.genres)
+               search_input_lower in publisher_lower or \
+               any(search_input in str(genre).lower() for genre in game.genres)
 
 
 def test_search_games_publisher(in_memory_repo):
@@ -93,13 +97,14 @@ def test_search_games_publisher(in_memory_repo):
         search_input_lower = search_input.lower()
 
         assert search_input_lower in title_lower or \
-            search_input_lower in publisher_lower or \
-            any(search_input in str(genre).lower() for genre in game.genres)
+               search_input_lower in publisher_lower or \
+               any(search_input in str(genre).lower() for genre in game.genres)
 
     result_games = search_games(in_memory_repo, '', None, search_input)
     assert len(result_games) > 0
     for game in result_games:
         assert Publisher("Activision") == game.publisher
+
 
 # Test repository can retrieve a game object
 
@@ -122,3 +127,29 @@ def test_memory_repo_add_review_to_game(in_memory_repo):
     review = Review(user, game, rating, comment)
     in_memory_repo.add_game(game)
     in_memory_repo.add_review_to_game(game_id, review)
+
+    game_return = in_memory_repo.get_game(13)
+
+    assert review in game_return.reviews
+
+
+# Test doesn't add different reviews for same game by same user
+def test_memory_repo_doesnt_add_duplicate_reviews(in_memory_repo):
+    game_id = 13
+    title = "Zombies"
+    game = Game(game_id, title)
+    user = User("natalie", "Nate1234")
+    comment = "This game was horrible"
+    rating = 1
+    review = Review(user, game, rating, comment)
+
+    comment2 = "Awesome game!"
+    rating2 = 5
+    review2 = Review(user, game, rating2, comment2)
+
+    in_memory_repo.add_game(game)
+    in_memory_repo.add_review_to_game(game_id, review)
+    in_memory_repo.add_review_to_game(game_id, review2)
+    game_return = in_memory_repo.get_game(13)
+
+    assert len(game_return.reviews) == 1

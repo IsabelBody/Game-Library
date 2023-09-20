@@ -109,8 +109,9 @@ class MemoryRepository(AbstractRepository):
 
     def add_review_to_game(self, game_id, review):
         game = self.get_game(game_id)
-        if game:
-            game.add_review(review)
+        if isinstance(game, Game):
+            if review.user not in [r.user for r in game.reviews]:
+                game.add_review(review)
 
 
 def populate(repo: AbstractRepository):
