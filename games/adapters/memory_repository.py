@@ -113,7 +113,6 @@ class MemoryRepository(AbstractRepository):
             game.add_review(review)
 
 
-
 def populate(repo: AbstractRepository):
     dir_name = os.path.dirname(os.path.abspath(__file__))
     games_file_name = os.path.join(dir_name, "data/games.csv")

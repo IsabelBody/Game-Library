@@ -1,6 +1,6 @@
 import pytest
 from games.adapters.memory_repository import MemoryRepository, populate
-from games.domainmodel.model import Genre, Game, Publisher
+from games.domainmodel.model import Genre, Game, Publisher, User, Review
 from games.library.services import get_games, search_games
 import sys
 import os
@@ -109,3 +109,16 @@ def test_retrieve_game_by_id(in_memory_repo):
     # the id should return the same game
     matched_game = in_memory_repo.get_game(expected_game.game_id)
     assert expected_game == matched_game
+
+
+# Testing add review to game in memory_repository
+def test_memory_repo_add_review_to_game(in_memory_repo):
+    game_id = 13
+    title = "Zombies"
+    game = Game(game_id, title)
+    user = User("natalie", "Nate1234")
+    comment = "This game was horrible"
+    rating = 1
+    review = Review(user, game, rating, comment)
+    in_memory_repo.add_game(game)
+    in_memory_repo.add_review_to_game(game_id, review)

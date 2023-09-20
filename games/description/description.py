@@ -9,6 +9,7 @@ from wtforms.validators import DataRequired, NumberRange
 description_blueprint = Blueprint(
     'description_bp', __name__)
 
+
 class ReviewForm(FlaskForm):
     review_text = TextAreaField('Write your review', validators=[DataRequired()])
     rating = IntegerRangeField('Star Rating', validators=[DataRequired(), NumberRange(min=1, max=5)])
@@ -49,7 +50,5 @@ def add_review(game_id):
         rating = form.rating.data
 
         services.add_review(game_id, review_text, user_name, repo.repo_instance, rating)
-
-
 
     return render_template('gameDescription.html', game=game, game_id=game_id, form=form)

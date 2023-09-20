@@ -7,6 +7,7 @@ from flask import Blueprint, request, render_template, session
 def get_game(repo: AbstractRepository, game_id):
     return repo.get_game(game_id)
 
+
 def add_review(game_id, review_text, user_name, repo, rating):
     # Check if the game exists (you might want to handle this case differently)
     game = repo.get_game(game_id)
@@ -24,12 +25,12 @@ def add_review(game_id, review_text, user_name, repo, rating):
     for reviewed in game.reviews:
         if isinstance(reviewed, Review):
             if reviewed.user == review.user:
-                return
+                return "Game already reviewed"
 
     for rev in user.reviews:
         if isinstance(rev, Review) and review == rev:
             if rev.user == review.user:
-                return
+                return "Game already reviewed"
 
     user.add_review(review)
     game.add_review(review)
