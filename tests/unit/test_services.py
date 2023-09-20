@@ -4,7 +4,7 @@ from games.domainmodel.model import Game, Genre
 from games.adapters.memory_repository import MemoryRepository
 from games.library.services import get_games, search_games
 from games.library.pagination import paginate
-from games.description.services import get_game
+from games.description.services import get_game, add_review
 from games import populate
 
 import pytest
@@ -12,6 +12,7 @@ import os
 
 import sys
 import os
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
@@ -20,6 +21,7 @@ def populated_repo():
     repo = MemoryRepository()
     populate(repo)
     return repo
+
 
 # LIBRARY.PAGINATION
 # testing the pagination function, it should produce 21 per page.
@@ -37,6 +39,7 @@ def test_pagination_populated_repo(populated_repo):
         # checking less than 21 games per page
         assert len(displayed_games) <= items_per_page
 
+
 # LIBRARY.SERVICES
 # Test inserting empty search key throws exception
 
@@ -45,12 +48,14 @@ def test_search_games_empty_query(populated_repo):
     with pytest.raises(ValueError):
         search_games(populated_repo, "")
 
+
 # Test inserting non-existing search key throws exception
 
 
 def test_inserting_non_existing_search_key(populated_repo):
     with pytest.raises(ValueError):
         search_games(populated_repo, "fdasfadsfsafdafdasfadfdasad")
+
 
 # Test the number of objects returned is correct
 
@@ -59,6 +64,7 @@ def test_get_number_of_games(populated_repo):
     game_amount = get_number_of_games(populated_repo)
     actual_amount = len(populated_repo.get_games())
     assert game_amount == actual_amount
+
 
 # alternative search function using the service layer rather than directly interacting with our repository
 # Test getting games for a search key ‘genre’
@@ -70,6 +76,7 @@ def test_search_games_by_genre(populated_repo):
     for game in result_games:
         # The genre must exist in the game
         assert Genre("Action") in game.genres
+
 
 # Test getting games for a search key 'publisher'
 
@@ -91,6 +98,7 @@ def test_get_game_with_search_key(populated_repo):
 
     # get game title -> equal Xpand Rally
     assert game.title == 'Xpand Rally'
+
 
 # DESCRIPTION.SERVICES
 # Test service layer return an existing game object
