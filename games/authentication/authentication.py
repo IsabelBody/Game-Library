@@ -130,10 +130,25 @@ class PasswordValid:
             raise ValidationError(self.message)
 
 
+class UsernameValid:
+    def __init__(self, message=None):
+        if not message:
+            message = 'Username must be in all lowercase.'
+        self.message = message
+
+    def __call__(self, form, field):
+        if field.data.lower() != field.data:
+            raise ValidationError(self.message)
+
+
 class RegistrationForm(FlaskForm):
+
     user_name = StringField('Username', [
         DataRequired(message='Your user name is required'),
-        Length(min=3, message='Your user name is too short')])
+        Length(min=3, message='Your user name is too short'),
+        UsernameValid()  # Custom validator to ensure lowercase
+
+    ])
     password = PasswordField('Password', [
         DataRequired(message='Your password is required'),
         PasswordValid()])
