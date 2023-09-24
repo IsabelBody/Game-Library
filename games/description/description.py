@@ -39,7 +39,7 @@ def description():
 def add_review(game_id):
     # Obtain the user name of the currently logged in user.
     user_name = session['user_name']
-
+    message = None
     # Create an instance of the ReviewForm
     form = ReviewForm()
     game = services.get_game(repo.repo_instance, game_id)
@@ -49,6 +49,6 @@ def add_review(game_id):
         review_text = form.review_text.data
         rating = form.rating.data
 
-        services.add_review(game_id, review_text, user_name, repo.repo_instance, rating)
+        message = services.add_review(game_id, review_text, user_name, repo.repo_instance, rating)
 
-    return render_template('gameDescription.html', game=game, game_id=game_id, form=form)
+    return render_template('gameDescription.html', game=game, game_id=game_id, form=form, message=message)

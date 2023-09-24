@@ -66,6 +66,11 @@
             {{ form.submit }}
         </div>
     </form>
+    {% if message != None %}
+    <p>{{ message }}</p>
+
+    {% endif %}
+
     {% endif %}
     {% else %}
     <!-- Message for Non-Logged In Users -->
