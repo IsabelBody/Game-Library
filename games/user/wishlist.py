@@ -1,3 +1,4 @@
+from games.authentication.authentication import login_required
 from games.domainmodel.model import Publisher, Genre, User, Game
 from games.adapters.memory_repository import *
 from games.user import services
@@ -7,6 +8,7 @@ wishlist_blueprint = Blueprint('wishlist_bp', __name__)
 
 
 @wishlist_blueprint.route('/wishlist', methods=['GET'])
+@login_required
 def add_to_wishlist():
     game_id = request.args.get('game_id')
     # Retrieve game

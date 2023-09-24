@@ -32,7 +32,7 @@ def add_review(game_id, review_text, user_name, repo, rating):
             if rev.user == review.user:
                 return "Game already reviewed"
 
-    #user.add_review(review)
-    #game.add_review(review)
+    user.add_review(review)
+    game.add_review(review)
 
     repo.add_review_to_game(game.game_id, review)

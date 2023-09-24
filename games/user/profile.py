@@ -1,5 +1,6 @@
 from flask import Blueprint, request, render_template, session
 from games.adapters.memory_repository import *
+from games.authentication.authentication import login_required
 from games.user import wishlist, services
 from games.user.reviews import get_user_reviews
 
@@ -7,6 +8,7 @@ profile_blueprint = Blueprint('profile_bp', __name__)
 
 
 @profile_blueprint.route('/profile', methods=['GET'])
+@login_required
 def profile():
     user_name = session.get('user_name')
     current_user = services.get_user(repo.repo_instance, user_name)
