@@ -23,18 +23,31 @@ def test_register(client):
         ('test', '', b'Your password is required'),
         ('test', 'test', b'Your password must be at least 8 characters, and contain an upper case letter,\
             a lower case letter and a digit'),
-        ('fmercury', 'Test#6^0', b'Your user name is already taken - please supply another'), # this line makes it pass when it should'nt.
 ))
 def test_register_with_invalid_input(client, user_name, password, message):
     # Check that attempting to register with invalid combinations of user name and password generate appropriate error
     # messages.
-
     response = client.post(
         '/authentication/register',
         data={'user_name': user_name, 'password': password}
     )
     assert response.status_code == 200 # should fail to redirect
     assert message in response.data
+
+
+# test register when the username is already there.
+def test_register_already_exists(client):
+    # When registering when someone has taken your username it should fail.
+    response = client.post(
+        '/authentication/register',
+        data={'user_name': 'fmercury', 'password': 'Test#6^0'}
+    )
+    response = client.post(
+        '/authentication/register',
+        data={'user_name': 'fmercury', 'password': 'Test#6^0'}
+    )
+    assert response.status_code == 200 # should fail to redirect
+    assert b'Your user name is already taken - please supply another' in response.data
 
 
 def test_login(client, auth):
