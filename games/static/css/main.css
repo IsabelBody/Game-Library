@@ -76,6 +76,8 @@ body {
 /* Set the background color for the entire page (excluding header) */
 body {
   background: black;
+  margin: 0;
+  padding: 0;
 }
 
 /* ... */
@@ -134,6 +136,7 @@ body {
   background: linear-gradient(-45deg, #23d5ab, #23a6d5, #e73c7e, #ee7752);
   background-size: 400% 400%;
   animation: gradient 4s ease infinite;
+  left: 0;
 }
 
 .search-form select {

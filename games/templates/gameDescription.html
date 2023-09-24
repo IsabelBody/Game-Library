@@ -51,21 +51,29 @@
         {{ form.hidden_tag() }}
         <input type="hidden" name="game_id" value="{{ game.game_id }}">
         <div class="form-group">
-            {{ form.review_text.label(class="form-control-label") }}
-            {{ form.review_text(class="form-control") }}
+            {{ form.review_text.label(class="form-control-label") }} <br>
+            {{ form.review_text(cols=60, rows=6, class="form-control", style="background-color: #f8f8f8; color: #333;") }} <br><br>
         </div>
         <div class="form-group">
-            <label>Rating:</label>
+            <label>Rating:</label><br>
             <input type="radio" name="rating" value="1"> 1
             <input type="radio" name="rating" value="2"> 2
             <input type="radio" name="rating" value="3"> 3
             <input type="radio" name="rating" value="4"> 4
             <input type="radio" name="rating" value="5"> 5
-        </div>
+        </div><br>
         <div class="form-group">
             {{ form.submit }}
         </div>
     </form>
+    {% if form.rating.errors %}
+    <p class="text-danger">A rating is required to submit a review.</p>
+    {% endif %}
+
+    {% if form.review_text.errors %}
+    <p class="text-danger">A description is required to submit a review.</p>
+    {% endif %}
+
     {% if message != None %}
     <p>{{ message }}</p>
 

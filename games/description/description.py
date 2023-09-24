@@ -11,7 +11,7 @@ description_blueprint = Blueprint(
 
 
 class ReviewForm(FlaskForm):
-    review_text = TextAreaField('Write your review', validators=[DataRequired()])
+    review_text = TextAreaField('Write your review:', validators=[DataRequired()])
     rating = IntegerRangeField('Star Rating', validators=[DataRequired(), NumberRange(min=1, max=5)])
     submit = SubmitField('Submit Review')
 
