@@ -29,13 +29,27 @@ def test_register(client):
 def test_register_with_invalid_input(client, user_name, password, message):
     # Check that attempting to register with invalid combinations of user name and password generate appropriate error
     # messages.
-
     response = client.post(
         '/authentication/register',
         data={'user_name': user_name, 'password': password}
     )
     assert response.status_code == 200  # should fail to redirect
     assert message in response.data
+
+
+# test register when the username is already there.
+def test_register_already_exists(client):
+    # When registering when someone has taken your username it should fail.
+    response = client.post(
+        '/authentication/register',
+        data={'user_name': 'fmercury', 'password': 'Test#6^0'}
+    )
+    response = client.post(
+        '/authentication/register',
+        data={'user_name': 'fmercury', 'password': 'Test#6^0'}
+    )
+    assert response.status_code == 200  # should fail to redirect
+    assert b'Your user name is already taken - please supply another' in response.data
 
 
 def test_login(client, auth):
