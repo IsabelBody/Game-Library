@@ -30,12 +30,17 @@ class AbstractRepository(abc.ABC):
         """
         raise NotImplementedError
 
+    # Wishlist Methods
+    @abc.abstractmethod
+    def add_wishlist(self, user: User):
+        raise NotImplementedError
+
     @abc.abstractmethod
     def add_wishlist_game(self, user: User, game: Game):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_wishlists(self):
+    def remove_wishlist_game(self, user: User, game: Game):
         raise NotImplementedError
 
     @abc.abstractmethod

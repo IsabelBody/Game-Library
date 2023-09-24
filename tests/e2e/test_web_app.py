@@ -18,12 +18,13 @@ def test_register(client):
 
 # parametrize lets us do multiple tests.
 @pytest.mark.parametrize(('user_name', 'password', 'message'), (
-        ('', '', b'Your user name is required'),
-        ('cj', '', b'Your user name is too short'),
-        ('test', '', b'Your password is required'),
-        ('test', 'test', b'Your password must be at least 8 characters, and contain an upper case letter,\
+    ('', '', b'Your user name is required'),
+    ('cj', '', b'Your user name is too short'),
+    ('test', '', b'Your password is required'),
+    ('test', 'test', b'Your password must be at least 8 characters, and contain an upper case letter,\
             a lower case letter and a digit'),
-        ('fmercury', 'Test#6^0', b'Your user name is already taken - please supply another'), # this line makes it pass when it should'nt.
+    # this line makes it pass when it should'nt.
+    ('fmercury', 'Test#6^0', b'Your user name is already taken - please supply another'),
 ))
 def test_register_with_invalid_input(client, user_name, password, message):
     # Check that attempting to register with invalid combinations of user name and password generate appropriate error
@@ -33,7 +34,7 @@ def test_register_with_invalid_input(client, user_name, password, message):
         '/authentication/register',
         data={'user_name': user_name, 'password': password}
     )
-    assert response.status_code == 200 # should fail to redirect
+    assert response.status_code == 200  # should fail to redirect
     assert message in response.data
 
 
@@ -52,13 +53,12 @@ def test_login(client, auth):
     status_code = client.get('/authentication/login').status_code
     assert status_code == 200
 
-
     # Check that a successful login generates a redirect to the homepage.
     response = client.post(
         '/authentication/login',
         data={'user_name': username, 'password': password}
     )
-    assert response.status_code == 302 # code for redirection.
+    assert response.status_code == 302  # code for redirection.
     # it has to be 302 because we are redirecting.
 
     # Check that a session has been created for the logged-in user.
@@ -83,3 +83,90 @@ def test_index(client):
     response = client.get('/')
     assert response.status_code == 200
     assert b"Welcome to Saveer's Arcade" in response.data
+
+
+def test_end_to_end_adding_games_to_wishlist(client, auth):
+    username = 'thorke'
+    password = 'cLQ^C#oFXloS7'
+    # registering a user
+    response = client.post(
+        '/authentication/register',
+        data={'user_name': username, 'password': password}
+    )
+    # Check for successful registration and redirection
+    assert response.status_code == 302
+
+    response = client.post(
+        '/authentication/login',
+        data={'user_name': username, 'password': password}
+    )
+    assert response.status_code == 302  # code for redirection.
+
+    response = client.get('/profile')
+    assert response.status_code == 200  # Check profile page is accessible
+
+    # Game to add to the wishlist
+    game_id = 435790
+
+    # Add game to the wishlist
+    response = client.get(f'/wishlist?game_id={game_id}')
+    # Check for successful addition and redirection
+    assert response.status_code == 302
+
+    # Check game is in wishlist
+    response = client.get('/profile')
+    assert response.status_code == 200  # Check profile page is accessible
+
+    assert b"10 Second Ninja X has been added to your wishlist" in response.data
+
+    auth.logout()
+
+
+def test_end_to_end_removing_game_from_wishlist(client, auth):
+    username = 'thorke'
+    password = 'cLQ^C#oFXloS7'
+
+    # Register a new user
+    response = client.post(
+        '/authentication/register',
+        data={'user_name': username, 'password': password}
+    )
+    # Check for successful registration and redirection
+    assert response.status_code == 302
+
+    # Log in user
+    response = client.post(
+        '/authentication/login',
+        data={'user_name': username, 'password': password}
+    )
+    assert response.status_code == 302  # Check for successful login and redirection
+
+    # Access profile
+    response = client.get('/profile')
+    assert response.status_code == 200  # Check profile page is accessible
+
+    # Game to add
+    game_id = 435790
+
+    # Add game to wishlist
+    response = client.get(f'/wishlist?game_id={game_id}')
+    # Check for successful addition and redirection
+    assert response.status_code == 302
+
+    # Check game is in wishlist
+    response = client.get('/profile')
+    assert response.status_code == 200  # Check that the profile page is accessible
+    assert b"10 Second Ninja X" in response.data
+
+    # Remove the game
+    response = client.get(f'/remove_from_wishlist?game_id={game_id}')
+    assert response.status_code == 302  # Check for successful removal and redirection
+
+    # Check game is removed
+    response = client.get('/profile')  # Access the profile page again
+    assert response.status_code == 200  # Check that the profile page is accessible
+
+    # Check game removed message
+    assert b"10 Second Ninja X has been removed from your wishlist." in response.data
+
+    auth.logout()
