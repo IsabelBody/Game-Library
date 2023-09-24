@@ -32,9 +32,6 @@ class MemoryRepository(AbstractRepository):
         self.__wishlists.append(wishlist)
         return wishlist
 
-    def get_wishlists(self):
-        return self.__wishlists
-
     def add_wishlist_game(self, user: User, game: Game):
         if isinstance(user, User) and isinstance(game, Game):
             user_wishlist = next(

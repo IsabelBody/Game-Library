@@ -1,6 +1,6 @@
 import pytest
 from games.adapters.memory_repository import MemoryRepository, populate
-from games.domainmodel.model import Genre, Game, Publisher, User, Review
+from games.domainmodel.model import Genre, Game, Publisher, User, Review, Wishlist
 from games.library.services import get_games, search_games
 import sys
 import os
@@ -81,8 +81,8 @@ def test_search_games_by_title(in_memory_repo):
         search_input_lower = search_input.lower()
 
         assert search_input_lower in title_lower or \
-               search_input_lower in publisher_lower or \
-               any(search_input in str(genre).lower() for genre in game.genres)
+            search_input_lower in publisher_lower or \
+            any(search_input in str(genre).lower() for genre in game.genres)
 
 
 def test_search_games_publisher(in_memory_repo):
@@ -97,8 +97,8 @@ def test_search_games_publisher(in_memory_repo):
         search_input_lower = search_input.lower()
 
         assert search_input_lower in title_lower or \
-               search_input_lower in publisher_lower or \
-               any(search_input in str(genre).lower() for genre in game.genres)
+            search_input_lower in publisher_lower or \
+            any(search_input in str(genre).lower() for genre in game.genres)
 
     result_games = search_games(in_memory_repo, '', None, search_input)
     assert len(result_games) > 0
@@ -154,7 +154,71 @@ def test_memory_repo_doesnt_add_duplicate_reviews(in_memory_repo):
 
     assert len(game_return.reviews) == 1
 
+    # Wishlist Tests
+    # Testing add review to game in memory_repository
 
 
+def create_wishlist(in_memory_repo):
+    user = User("natalie", "Nate1234")
+
+    # Check wishlist is created
+    new_wishlist = in_memory_repo.add_wishlist(user['user_name'])
+    assert isinstance(new_wishlist, Wishlist)
 
 
+def test_memory_repo_add_game_to_wishlist(in_memory_repo):
+    game = Game(13, "Zombies")
+    user = User("natalie", "Nate1234")
+
+    # Create a new wishlist for the user and add a game to it
+    new_wishlist = in_memory_repo.add_wishlist(user)
+    in_memory_repo.add_wishlist_game(user, game)
+
+    # Check the game is in the list
+    assert game in new_wishlist.list_of_games()
+
+
+def test_memory_repo_remove_game_from_wishlist(in_memory_repo):
+    game = Game(13, "Zombies")
+    user = User("natalie", "Nate1234")
+
+    # Create a new wishlist for the user and add a game to it
+    new_wishlist = in_memory_repo.add_wishlist(user)
+    in_memory_repo.add_wishlist_game(user, game)
+
+    # Check the game is in the list to be removed
+    assert game in new_wishlist.list_of_games()
+
+    # Remove and check if it is removed
+    in_memory_repo.remove_wishlist_game(user, game)
+    assert game not in in_memory_repo.get_wishlist_games(user)
+
+
+def test_memory_repo_get_wishlist_games(in_memory_repo):
+    game1 = Game(13, "Zombies")
+    game2 = Game(14, "Vampires")
+    user = User("natalie", "Nate1234")
+
+    # Create a new wishlist for the user and add games to it
+    in_memory_repo.add_wishlist(user)
+    in_memory_repo.add_wishlist_game(user, game1)
+    in_memory_repo.add_wishlist_game(user, game2)
+
+    # Get the list of games from the user's wishlist
+    wishlist_games = in_memory_repo.get_wishlist_games(user)
+
+    # Assert that the list of games matches the expected games
+    assert len(wishlist_games) == 2
+    assert game1 in wishlist_games
+    assert game2 in wishlist_games
+
+
+def test_memory_repo_doesnt_add_duplicate_wishlist_games(in_memory_repo):
+    game1 = Game(13, "Zombies")
+    user = User("natalie", "Nate1234")
+
+    in_memory_repo.add_wishlist(user)
+    in_memory_repo.add_wishlist_game(user, game1)
+    in_memory_repo.add_wishlist_game(user, game1)
+
+    assert len(in_memory_repo.get_wishlist_games(user)) == 1
