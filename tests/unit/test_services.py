@@ -6,12 +6,16 @@ from games.library.services import get_games, search_games
 from games.library.pagination import paginate
 from games.description.services import get_game, add_review
 from games import populate
+from games.adapters.memory_repository import MemoryRepository, populate
+from games.domainmodel.model import Genre, Game, Publisher, User, Review
 
 import pytest
 import os
 
 import sys
 import os
+
+from tests.conftest import auth
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -115,3 +119,25 @@ def test_returns_existing_game(populated_repo):
     # the id should return the same game
     matched_game = get_game(populated_repo, expected_game['game_id'])
     assert expected_game['title'] == matched_game.title
+
+
+# testing the profile page results
+
+# test that when user is not authenticated they can't get in, they are redirected
+def test_profile_page_unauthenticated(client):
+    with client:
+        response = client.get('/profile')
+        assert (response.status_code==302) # redirecting because they're not authenticated
+
+def test_authenticated(client, auth):
+    auth.register()
+    auth.login()
+
+    with client:
+        response = client.get('/profile')
+        assert (response.status_code==200)
+        assert b'thorke' in response.data # test that username appears at top in response data
+        assert b'No wishlisted games.' in response.data # both panels are empty because
+        assert b'No reviews' in response.data # there are no reviews or wishlisted games yet.
+
+
