@@ -64,12 +64,10 @@ def test_inserting_non_existing_search_key(populated_repo):
 
 # Test the number of objects returned is correct
 
-
 def test_get_number_of_games(populated_repo):
     game_amount = get_number_of_games(populated_repo)
     actual_amount = len(populated_repo.get_games())
     assert game_amount == actual_amount
-
 
 # alternative search function using the service layer rather than directly interacting with our repository
 # Test getting games for a search key ‘genre’
@@ -139,10 +137,6 @@ def test_authenticated(client, auth):
         assert b'thorke' in response.data # test that username appears at top in response data
         assert b'No wishlisted games.' in response.data # both panels are empty because
         assert b'No reviews' in response.data # there are no reviews or wishlisted games yet.
-
-
-# Profile services
-
 
 def test_profile_get_game(populated_repo):
     game = profile_services.get_game(populated_repo, 3010)
