@@ -100,7 +100,7 @@ def map_model_to_tables():
 
     # relationship model
     mapper(model.Publisher, publishers_table, properties={
-        '_Publisher__publisher_name': publishers_table.c.name,
+        '_Publisher__publisher_name': publishers_table.c.name
     })
 
     # relationship model
@@ -121,8 +121,5 @@ def map_model_to_tables():
         '_Wishlist__games': relationship(model.Game, secondary=wishlist_games_table, back_populates='_Game__wishlist')
     })
 
-    mapper(model.Wishlist, wishlist_table, properties={
-        '_Wishlist__user': relationship(model.User),
-        '_Wishlist__games': relationship(model.Game, secondary=wishlist_games_table, back_populates='_Game__wishlist')
-    })
+
 
