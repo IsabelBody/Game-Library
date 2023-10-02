@@ -56,6 +56,12 @@ class SqlAlchemyRepository(AbstractRepository):
             scm.session.add(user)
             scm.commit()
 
+    def add_publisher(self, publisher: Publisher):
+        with self._session_cm as scm:
+            scm.session.add(Publisher)
+            scm.commit()
+
+
     def get_user(self, user_name: str) -> User:
         user = None
         try:
@@ -99,7 +105,7 @@ class SqlAlchemyRepository(AbstractRepository):
         return games_for_genre
 
     def get_number_of_games(self):
-        count_games = self._session_cm.session.query(Game).all().count()
+        count_games = self._session_cm.session.query(Game).count()
         return count_games
 
     def get_publishers(self) -> List[Publisher]:
@@ -107,7 +113,7 @@ class SqlAlchemyRepository(AbstractRepository):
         return all_publishers
 
     def get_number_of_unique_genres(self):
-        num_unique = self._session_cm.session.query(Genre).all().distinct().count()
+        num_unique = self._session_cm.session.query(Genre).distinct().count()
         return num_unique
 
     def add_wishlist(self, user: User):
