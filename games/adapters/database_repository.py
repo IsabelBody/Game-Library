@@ -87,11 +87,24 @@ class SqlAlchemyRepository(AbstractRepository):
     def get_game(self, game_id) -> Game:
         game = None
         try:
-            game = self._session_cm.session.query(Game).filter(Game.game_id == game_id).one()
-        except NoResultFound:
-            pass
+            games = self._session_cm.session.query(Game).all()
 
-        return game
+            filtered_games = [game for game in games if game.game_id == game_id]
+            return filtered_games[0]
+        except:
+            return None
+
+    # old get_game function !
+    #def get_game(self, game_id) -> Game:
+    #    game = None
+    #    try:
+    #        game = self._session_cm.session.query(Game).filter(Game.game_id == game_id).one()
+    #    except NoResultFound:
+    #        pass
+
+#        return game
+
+
 
     def add_genre(self, genre: Genre):
         with self._session_cm as scm:
@@ -136,7 +149,7 @@ class SqlAlchemyRepository(AbstractRepository):
             if user_wishlist is None:
                 user_wishlist = Wishlist(user)
                 scm.session.add(user_wishlist)
-            user_wishlist.games.append(game)
+            user_wishlist.add_game(game)
             scm.commit()
 
     def remove_wishlist_game(self, user: User, game: Game):
@@ -149,9 +162,12 @@ class SqlAlchemyRepository(AbstractRepository):
     def get_wishlist_games(self, user: User) -> List[Game]:
         with self._session_cm as scm:
             user_wishlist = scm.session.query(Wishlist).filter(Wishlist.user == user).first()
+
+
             if user_wishlist:
                 return user_wishlist.games
             return []
+
 
     def add_review_to_game(self, game_id, review):
         with self._session_cm as scm:
