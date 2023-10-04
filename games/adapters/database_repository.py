@@ -2,7 +2,7 @@ from datetime import date
 from typing import List
 
 from sqlalchemy import desc, asc
-from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
+from sqlalchemy.exc import NoResultFound, MultipleResultsFound
 
 from sqlalchemy.orm import scoped_session
 from games.adapters.repository import AbstractRepository
@@ -45,6 +45,7 @@ class SqlAlchemyRepository(AbstractRepository):
     def __init__(self, session_factory):
         self._session_cm = SessionContextManager(session_factory)
 
+
     def close_session(self):
         self._session_cm.close_current_session()
 
@@ -58,9 +59,11 @@ class SqlAlchemyRepository(AbstractRepository):
 
     def add_publisher(self, publisher: Publisher):
         with self._session_cm as scm:
-            scm.session.add(Publisher)
+            scm.session.merge(publisher)
             scm.commit()
 
+    def commit(self):
+        self._session_cm.commit()
 
     def get_user(self, user_name: str) -> User:
         user = None
@@ -73,7 +76,7 @@ class SqlAlchemyRepository(AbstractRepository):
 
     def add_game(self, game: Game):
         with self._session_cm as scm:
-            scm.session.add(game)
+            scm.session.merge(game)
             scm.commit()
 
     def get_game(self, game_id) -> Game:
@@ -87,7 +90,7 @@ class SqlAlchemyRepository(AbstractRepository):
 
     def add_genre(self, genre: Genre):
         with self._session_cm as scm:
-            scm.session.add(genre)
+            scm.session.merge(genre)
             scm.commit()
 
     def get_games(self) -> List[Game]:
