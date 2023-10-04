@@ -6,6 +6,7 @@ from sqlalchemy.exc import NoResultFound, MultipleResultsFound
 
 from sqlalchemy.orm import scoped_session
 from games.adapters.repository import AbstractRepository
+from games.authentication.services import user_to_dict
 from games.domainmodel.model import User, Game, Genre, Review, Publisher, Wishlist
 
 
@@ -68,11 +69,15 @@ class SqlAlchemyRepository(AbstractRepository):
     def get_user(self, user_name: str) -> User:
         user = None
         try:
-            user = self._session_cm.session.query(User).filter(User.__username == user_name).one()
-        except NoResultFound:
-            pass
+            users = self._session_cm.session.query(User).all()
 
-        return user
+            filtered_users = [user for user in users if user.username == user_name]
+            return filtered_users[0]
+
+        except:
+            return None
+
+
 
     def add_game(self, game: Game):
         with self._session_cm as scm:
