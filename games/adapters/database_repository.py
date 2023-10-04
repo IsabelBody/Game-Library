@@ -85,13 +85,15 @@ class SqlAlchemyRepository(AbstractRepository):
             scm.commit()
 
     def get_game(self, game_id) -> Game:
-        game = None
         try:
-            game = self._session_cm.session.query(Game).filter(Game.game_id == game_id).one()
+            games = self._session_cm.session.query(Game).all()
+            filtered = [game for game in games if game.game_id == game_id]
+            print(filtered)
+            return filtered[0]
+
         except NoResultFound:
             pass
 
-        return game
 
     def add_genre(self, genre: Genre):
         with self._session_cm as scm:
