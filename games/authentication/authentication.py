@@ -31,7 +31,8 @@ def register():
 
             # All is well, redirect the user to the login page.
             return redirect(url_for('authentication_bp.login'))
-        except services.NameNotUniqueException:
+        #except services.NameNotUniqueException:
+        except:
             user_name_not_unique = 'Your user name is already taken - please supply another'
 
     # For a GET or a failed POST request, return the Registration Web page.

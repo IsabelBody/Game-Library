@@ -16,7 +16,6 @@ def populate(data_path: Path, repo: SqlAlchemyRepository, database_mode: bool):
     genres = reader.dataset_of_genres
 
     # Add publishers to the repo
-    #repo.add_publisher(publishers)
     for publisher in publishers:
         repo.add_publisher(publisher)
 

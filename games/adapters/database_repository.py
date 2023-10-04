@@ -68,7 +68,7 @@ class SqlAlchemyRepository(AbstractRepository):
     def get_user(self, user_name: str) -> User:
         user = None
         try:
-            user = self._session_cm.session.query(User).filter(User.username == user_name).one()
+            user = self._session_cm.session.query(User).filter(User.__username == user_name).one()
         except NoResultFound:
             pass
 
