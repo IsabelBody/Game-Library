@@ -106,11 +106,23 @@ class SqlAlchemyRepository(AbstractRepository):
         genres_all = self._session_cm.session.query(Genre).all()
         return genres_all
 
+#need more efficient solution
     def get_games_for_genre(self, genre_name) -> List[Game]:
-        games_for_genre = self._session_cm.session.query(Game).join(Game.genres).filter(
-            Genre.genre_name == genre_name).all()
+        games_for_genre = self._session_cm.session.query(Game).all()
+        selection = []
+        for game in games_for_genre:
+            genres = game.genres
+            genres_in = []
+            for genre in genres:
+                genres_in.append(genre.genre_name)
 
-        return games_for_genre
+            if genre_name in genres_in:
+                selection.append(game)
+            else:
+                continue
+
+
+        return selection
 
     def get_number_of_games(self):
         count_games = self._session_cm.session.query(Game).count()
