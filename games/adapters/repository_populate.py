@@ -23,6 +23,7 @@ def populate(data_path: Path, repo: SqlAlchemyRepository, database_mode: bool):
     for genre in genres:
         repo.add_genre(genre)
 
+
     # Add games to the repo
     for game in games:
         repo.add_game(game)

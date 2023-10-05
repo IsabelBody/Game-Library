@@ -92,16 +92,6 @@ class SqlAlchemyRepository(AbstractRepository):
         except:
             return None
 
-    # old get_game function !
-    #def get_game(self, game_id) -> Game:
-    #    game = None
-    #    try:
-    #        game = self._session_cm.session.query(Game).filter(Game.game_id == game_id).one()
-    #    except NoResultFound:
-    #        pass
-
-#        return game
-
 
     def add_genre(self, genre: Genre):
         with self._session_cm as scm:
@@ -160,7 +150,6 @@ class SqlAlchemyRepository(AbstractRepository):
         with self._session_cm as scm:
             user_wishlist = scm.session.query(Wishlist).filter(Wishlist.user == user).first()
 
-
             if user_wishlist:
                 return user_wishlist.games
             return []
@@ -168,7 +157,10 @@ class SqlAlchemyRepository(AbstractRepository):
 
     def add_review_to_game(self, game_id, review):
         with self._session_cm as scm:
-            game = scm.session.query(Game).filter(Game.game_id == game_id).first()
+            game = self.get_game(game_id)
+
             if game:
                 game.reviews.append(review)
                 scm.commit()
+
+

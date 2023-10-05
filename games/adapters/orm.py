@@ -31,8 +31,7 @@ games_table = Table(
 genres_table = Table(
     'genres', metadata,
     # For genre again we only have name.
-    Column('id', Integer, primary_key=True, autoincrement=True),
-    Column('genre_name', String(64), nullable=False)
+    Column('genre_name', String(64), primary_key=True, nullable=False)
 )
 
 games_genres_table = Table(
