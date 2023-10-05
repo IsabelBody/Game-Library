@@ -137,6 +137,11 @@ class SqlAlchemyRepository(AbstractRepository):
         return num_unique
 
     def add_wishlist(self, user: User):
+        wishlists = self._session_cm.session.query(Wishlist).all()
+        for wishlist in wishlists:
+            if wishlist.user == user:
+                return
+
         with self._session_cm as scm:
             wishlist = Wishlist(user)
             scm.session.add(wishlist)
