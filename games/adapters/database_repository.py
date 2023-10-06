@@ -104,7 +104,9 @@ class SqlAlchemyRepository(AbstractRepository):
 
     def get_genre(self) -> List[Genre]:
         genres_all = self._session_cm.session.query(Genre).all()
+        genres_all.sort()
         return genres_all
+
 
 #need more efficient solution
     def get_games_for_genre(self, genre_name) -> List[Game]:
@@ -165,11 +167,14 @@ class SqlAlchemyRepository(AbstractRepository):
 
     def get_wishlist_games(self, user: User) -> List[Game]:
         with self._session_cm as scm:
-            user_wishlist = scm.session.query(Wishlist).filter(Wishlist.user == user).first()
+            user_wishlist = scm.session.query(Wishlist).filter(Wishlist.user == user).all()
 
-            if user_wishlist:
-                return user_wishlist.games
-            return []
+
+
+            return user_wishlist
+            #if user_wishlist:
+            #    return user_wishlist.games
+            #return []
 
 
     def add_review_to_game(self, game_id, review):

@@ -9,7 +9,6 @@ search_blueprint = Blueprint(
 
 # Search button resulting html page
 
-
 @search_blueprint.route('/search', methods=['GET'])
 def search():
     query = request.args.get('query', '').strip()

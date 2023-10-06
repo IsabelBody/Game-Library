@@ -26,7 +26,7 @@
     <select name="genre">
       <option value="">Select Genre</option>
       {% for genre_option in genre_options %}
-      <option value="{{ genre_option }}"
+      <option value="{{ genre_option }}">
         {% if request.args.get('genre') == genre_option %}selected{% endif %}>
         {{ genre_option }}</option>
       {% endfor %}
@@ -36,7 +36,7 @@
     <select name="publisher">
       <option value="">Select Publisher</option>
       {% for publisher_option in publisher_options %}
-      <option value="{{ publisher_option }}"
+      <option value="{{ publisher_option }}">
         {% if request.args.get('publisher') == publisher_option %}selected{% endif %}>
         {{ publisher_option }}</option>
       {% endfor %}
