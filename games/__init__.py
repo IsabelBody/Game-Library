@@ -114,4 +114,18 @@ def create_app(test_config=None):
             if isinstance(repo.repo_instance, database_repository.SqlAlchemyRepository):
                 repo.repo_instance.close_session()
 
+
+        # making genres and publishers available in every blueprint so they can
+        # be accessed by the dropdowns.
+        @app.context_processor
+        def inject_genres():
+            genres = repo.repo_instance.get_genre()  # Load genres using your function
+            return dict(genres=genres)
+
+        @app.context_processor
+        def inject_publishers():
+            publishers = repo.repo_instance.get_publishers()  # Load genres using your function
+            return dict(publishers=publishers)
+
+
     return app
