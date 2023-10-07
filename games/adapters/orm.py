@@ -68,7 +68,6 @@ wishlist_games_table = Table(
     Column('id', Integer, primary_key=True, autoincrement=True),
     Column('wishlist_id', ForeignKey('wishlist.id')),
     Column('game_id', ForeignKey('games.id')),
-    Column('user_id', ForeignKey('users.id')),
 )
 
 
