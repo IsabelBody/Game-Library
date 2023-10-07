@@ -81,7 +81,7 @@ def map_model_to_tables():
             '_User__username': users_table.c.user_name,
             '_User__password': users_table.c.password,
             '_User__reviews': relationship(model.Review, back_populates='_Review__user'),
-            '_User__favorite_games': relationship(model.Wishlist, back_populates='_Wishlist__user')
+            '_User__wishlist': relationship(model.Wishlist, back_populates='_Wishlist__user')
         }
     )
     # Relationship model for Game
@@ -96,11 +96,7 @@ def map_model_to_tables():
         '_Game__publisher': relationship(model.Publisher),
         '_Game__genres': relationship(model.Genre, secondary=games_genres_table, back_populates='_Genre__games'),
         '_Game__reviews': relationship(model.Review, back_populates="_Review__game"),
-        '_Game__wishlist': relationship(
-            model.Wishlist,
-            secondary=wishlist_games_table,
-            back_populates='_Wishlist__games'
-        )
+        '_Game__wishlist': relationship(model.Wishlist, secondary=wishlist_games_table, back_populates='_Wishlist__list_of_games')
     })
 
     # Relationship model for Publisher
@@ -125,7 +121,7 @@ def map_model_to_tables():
     # Relationship model for Wishlist
     mapper(model.Wishlist, wishlist_table, properties={
         '_Wishlist__user': relationship(model.User),
-        '_Wishlist__games': relationship(
+        '_Wishlist__list_of_games': relationship(
             model.Game,
             secondary=wishlist_games_table,
             back_populates='_Game__wishlist'

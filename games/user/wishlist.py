@@ -16,10 +16,13 @@ def add_to_wishlist():
     game = services.get_game(repo.repo_instance, int(game_id))
 
 
-    current_user = session.get('user_name')
+    username = session.get('user_name')
+
+    user = repo.repo_instance.get_user(username)
+
     # Add game to wishlist
-    if game and current_user:
-        services.add_wishlist_game(repo.repo_instance, current_user, game)
+    if game and username:
+        services.add_wishlist_game(repo.repo_instance, username, game)
         flash(f'{game.title} has been added to your wishlist.', 'success')
     else:
         print("not game or user")

@@ -12,8 +12,8 @@ def add_wishlist(repo: AbstractRepository, user_name):
     return repo.add_wishlist(user)
 
 
-def add_wishlist_game(repo: AbstractRepository, user_name, game: Game):
-    user = repo.get_user(user_name)
+def add_wishlist_game(repo: AbstractRepository, username, game: Game):
+    user = repo.get_user(username)
     repo.add_wishlist_game(user, game)
 
 
