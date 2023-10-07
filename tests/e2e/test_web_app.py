@@ -129,7 +129,7 @@ def test_end_to_end_adding_games_to_wishlist(client, auth):
     response = client.get('/profile')
     assert response.status_code == 200  # Check profile page is accessible
 
-    assert b"10 Second Ninja X has been added to your wishlist" in response.data
+    assert b"10 Second Ninja X has been added to your wishlist." in response.data
 
     auth.logout()
 

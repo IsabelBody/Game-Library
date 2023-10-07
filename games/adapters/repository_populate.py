@@ -29,4 +29,5 @@ def populate(data_path: Path, repo: SqlAlchemyRepository, database_mode: bool):
         repo.add_game(game)
 
     # Commit changes to the database if using SQLAlchemy sessions
-    repo.commit()
+    if database_mode == True:
+        repo.commit()
