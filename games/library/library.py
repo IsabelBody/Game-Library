@@ -33,7 +33,6 @@ def library():
 @library_blueprint.route('/games_by_genre', methods=['GET'])
 def games_by_genre():
     games_per_page = 21  # Adjust this as needed
-    given_genres = services.get_genres(repo.repo_instance)
     genre_name = request.args.get('genre')
     page = int(request.args.get('page', 1))
 
@@ -55,7 +54,6 @@ def games_by_genre():
 
     return render_template(
         'byGenre.html',
-        given_genres=given_genres,
         title='Games',
         games_title=f'Games in the {genre_name} genre',
         games= displayed_games,

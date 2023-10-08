@@ -8,6 +8,7 @@ from sqlalchemy.orm import scoped_session
 from games.adapters.repository import AbstractRepository
 from games.authentication.services import user_to_dict
 from games.domainmodel.model import User, Game, Genre, Review, Publisher, Wishlist
+from sqlalchemy.orm import joinedload
 
 
 class SessionContextManager:
@@ -107,24 +108,16 @@ class SqlAlchemyRepository(AbstractRepository):
         genres_all.sort()
         return genres_all
 
-
-#need more efficient solution
     def get_games_for_genre(self, genre_name) -> List[Game]:
-        games_for_genre = self._session_cm.session.query(Game).all()
-        selection = []
-        for game in games_for_genre:
-            genres = game.genres
-            genres_in = []
-            for genre in genres:
-                genres_in.append(genre.genre_name)
+        genre = Genre(genre_name)
+        all_games = self.get_games()
 
-            if genre_name in genres_in:
-                selection.append(game)
-            else:
-                continue
+        games_by_genre = []
+        for game in all_games:
+            if genre in game.genres:
+                games_by_genre.append(game)
+        return games_by_genre
 
-
-        return selection
 
     def get_number_of_games(self):
         count_games = self._session_cm.session.query(Game).count()
