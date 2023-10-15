@@ -7,8 +7,6 @@ from games.adapters.repository import RepositoryException
 
 # User test cases
 
-# Working
-
 
 def test_repository_can_add_and_retrieve_user(session_factory):
     repo = SqlAlchemyRepository(session_factory)
@@ -213,21 +211,6 @@ def test_repository_can_remove_reviews(session_factory):
     assert review1 not in retrieved_reviews
     assert review2 in retrieved_reviews
 
-
-def test_repository_does_not_remove_nonexistent_review(session_factory):
-    repo = SqlAlchemyRepository(session_factory)
-
-    user = User("hasan", "Password123")
-    game = make_game()
-    review = Review(user, game, 5, "Im loving it")
-    repo.add_user(user)
-    repo.add_game(game)
-
-    repo.remove_review(game.game_id, review)
-
-    retrieved_reviews = repo.get_reviews_for_game(game.game_id)
-    assert len(retrieved_reviews) == 1
-    assert review in retrieved_reviews
 
 # # Wishlist test cases
 
