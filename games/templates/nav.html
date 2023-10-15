@@ -2,21 +2,25 @@
   <div class="nav-links">
     <div class="nav-buttons">
       <a class="nav-link" href="{{ url_for('home_bp.home') }}">Home</a>
-      <a class="nav-link" href="{{ url_for('library_bp.library') }}">Game Library</a>
+      <a class="nav-link" href="{{ url_for('library_bp.library') }}"
+        >Game Library</a
+      >
 
       <!-- only display login and register options when not logged in -->
       {% if 'user_name' not in session %}
-      <a class="nav-link" href="{{ url_for('authentication_bp.login') }}">Login</a>
-      <a class="nav-link" href="{{ url_for('authentication_bp.register') }}">Register</a>
+      <a class="nav-link" href="{{ url_for('authentication_bp.login') }}"
+        >Login</a
+      >
+      <a class="nav-link" href="{{ url_for('authentication_bp.register') }}"
+        >Register</a
+      >
       {% else %}
-      <a class="nav-link" href="{{ url_for('authentication_bp.logout') }}">Log out</a>
+      <a class="nav-link" href="{{ url_for('authentication_bp.logout') }}"
+        >Log out</a
+      >
       {% endif %}
-
     </div>
   </div>
-
-
-
 
   <!-- Search bar -->
   <form
@@ -28,7 +32,7 @@
     <select name="genre">
       <option value="">Select Genre</option>
       {% for genre in genres %}
-        <option value="">{{ genre.genre_name }}</option>
+      <option value="{{ genre.genre_name }}">{{ genre.genre_name }}</option>
       {% endfor %}
     </select>
 
@@ -36,7 +40,9 @@
     <select name="publisher">
       <option value="">Select Publisher</option>
       {% for publisher in publishers %}
-        <option value="">{{ publisher.publisher_name }}</option>
+      <option value="{{ publisher.publisher_name }}">
+        {{ publisher.publisher_name }}
+      </option>
       {% endfor %}
     </select>
 
