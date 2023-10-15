@@ -12,7 +12,7 @@ from utils import get_project_root
 TEST_DATA_PATH_DATABASE_FULL = get_project_root() / "games" / \
     "adapters" / "data"
 
-TEST_DATA_PATH_DATABASE_LIMITED = get_project_root() / "tests_db" / "data"
+TEST_DATA_PATH_DATABASE_LIMITED = get_project_root() / "tests" / "data"
 
 TEST_DATABASE_URI_IN_MEMORY = 'sqlite://'
 TEST_DATABASE_URI_FILE = 'sqlite:///games-test.db'
