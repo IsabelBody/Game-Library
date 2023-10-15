@@ -248,8 +248,6 @@ class User:
     def reviews(self) -> list:
         return self.__reviews
 
-
-
     def add_review(self, new_review):
 
         # These two lines were not allowing new reviews to be added:
@@ -370,6 +368,8 @@ class Wishlist:
     def size(self):
         size_wishlist = len(self.__list_of_games)
         if size_wishlist > 0:
+            return size_wishlist
+        if size_wishlist == 0:
             return size_wishlist
 
     def add_game(self, game: Game):

@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 from games.adapters.repository import AbstractRepository
 
+
 def populate(data_path: Path, repo: SqlAlchemyRepository, database_mode: bool):
     games_file_name = str(data_path / "games.csv")
 
@@ -13,6 +14,7 @@ def populate(data_path: Path, repo: SqlAlchemyRepository, database_mode: bool):
 
     publishers = reader.dataset_of_publishers
     games = reader.dataset_of_games
+
     genres = reader.dataset_of_genres
 
     # Add publishers to the repo
@@ -22,7 +24,6 @@ def populate(data_path: Path, repo: SqlAlchemyRepository, database_mode: bool):
     # Add genres to the repo
     for genre in genres:
         repo.add_genre(genre)
-
 
     # Add games to the repo
     for game in games:

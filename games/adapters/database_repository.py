@@ -47,7 +47,6 @@ class SqlAlchemyRepository(AbstractRepository):
     def __init__(self, session_factory):
         self._session_cm = SessionContextManager(session_factory)
 
-
     def close_session(self):
         self._session_cm.close_current_session()
 
@@ -72,13 +71,12 @@ class SqlAlchemyRepository(AbstractRepository):
         try:
             users = self._session_cm.session.query(User).all()
 
-            filtered_users = [user for user in users if user.username == user_name]
+            filtered_users = [
+                user for user in users if user.username == user_name]
             return filtered_users[0]
 
         except:
             return None
-
-
 
     def add_game(self, game: Game):
         with self._session_cm as scm:
@@ -88,11 +86,11 @@ class SqlAlchemyRepository(AbstractRepository):
     def get_game(self, game_id) -> Game:
         try:
             games = self._session_cm.session.query(Game).all()
-            filtered_games = [game for game in games if game.game_id == game_id]
+            filtered_games = [
+                game for game in games if game.game_id == game_id]
             return filtered_games[0]
         except:
             return None
-
 
     def add_genre(self, genre: Genre):
         with self._session_cm as scm:
@@ -152,7 +150,6 @@ class SqlAlchemyRepository(AbstractRepository):
             user_wishlist.add_game(game)
             scm.commit()
 
-
     def remove_wishlist_game(self, user: User, game: Game):
         with self._session_cm as scm:
             user_wishlist = self.get_wishlist_games(user)
@@ -163,15 +160,14 @@ class SqlAlchemyRepository(AbstractRepository):
     def get_wishlist_games(self, user: User) -> List[Game]:
         with self._session_cm as scm:
             wishlists = scm.session.query(Wishlist).all()
-            filtered_wishlists = [wishlist for wishlist in wishlists if user.id == wishlist.user_id]
+            filtered_wishlists = [
+                wishlist for wishlist in wishlists if user.id == wishlist.user_id]
 
             user_wishlist = filtered_wishlists[0]
 
             if user_wishlist:
                 return user_wishlist
             return []
-
-
 
     def add_review_to_game(self, game_id, review):
         with self._session_cm as scm:
@@ -181,4 +177,13 @@ class SqlAlchemyRepository(AbstractRepository):
                 game.reviews.append(review)
                 scm.commit()
 
-
+    def get_reviews_for_game(self, game_id) -> List[Review]:
+        try:
+            game = self.get_game(game_id)
+            print(game)
+            if game is not None:
+                return game.reviews
+            else:
+                return []
+        except:
+            return []
